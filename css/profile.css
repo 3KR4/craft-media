@@ -1,0 +1,553 @@
+.main-ProfilePage-holder {
+  
+}
+.main-ProfilePage-holder .image-cover {
+  position: relative;
+}
+.main-ProfilePage-holder .image-cover img {
+  width: 100%;
+  border-bottom-right-radius: 45px;
+  border-bottom-left-radius: 45px;
+}
+.main-ProfilePage-holder .image-cover button {
+  position: absolute;
+  bottom: 28px;
+  right: 30px;
+  display: flex;
+  color: var(--text-color);
+  background: var(--input-color);
+  padding: 10px 10px;
+  border-radius: 8px;
+  gap: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 2;
+}
+.main-ProfilePage-holder .image-cover button:hover {
+  background: var(--main-color2);
+  color: white;
+}
+.main-ProfilePage-holder .image-cover button:hover h4 {
+  transition: 0.3s;
+}
+.main-ProfilePage-holder .image-cover button:hover h4 {
+  color: white;
+}
+.main-ProfilePage-holder .user-info {
+  display: flex;
+  align-items: self-end;
+  gap: 20px;
+  position: relative;
+  margin: -71px 0 18px;
+  padding: 0 30px;
+}
+.main-ProfilePage-holder .user-info img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+}
+.main-ProfilePage-holder .user-info .holder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  top: -6px;
+}
+.main-ProfilePage-holder .user-info .user-name {
+
+}
+.main-ProfilePage-holder .user-info .user-name h1 {
+
+}
+.main-ProfilePage-holder .user-info .user-name .info {
+  display: flex;
+  gap: 13px;
+  font-size: 18px;
+}
+.main-ProfilePage-holder .user-info .user-name .info h5 {
+  font-weight: 400;
+}
+.main-ProfilePage-holder .user-info .user-name .info span {
+  font-weight: 600;
+}
+.profile-buttons {
+  display: flex;
+  gap: 10px;
+}
+.profile-buttons button {
+  display: flex;
+  color: var(--text-color);
+  background: var(--input-color);
+  padding: 10px 16px;
+  border-radius: 7px;
+  gap: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.main-ProfilePage-holder .user-info .profile-buttons button:nth-child(1) {
+  background: var(--main-color);
+  color: white;
+}
+.profile-buttons button:hover {
+  background: var(--main-color2);
+  color: white;
+}
+.main-ProfilePage-holder nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  border-top: 1px solid var(--hover-backGround2);
+  padding-top: 12px;
+
+}
+.main-ProfilePage-holder nav ul {
+  display: flex;
+}
+.main-ProfilePage-holder nav li:last-child,
+.main-ProfilePage-holder nav li a {
+  font-size: 16px;
+  color: var(--text-color2);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 5px 10px;
+  transition: 0.2s;
+}
+.main-ProfilePage-holder nav li:last-child:hover,
+.main-ProfilePage-holder nav li a:hover { 
+  background: var(--hover-backGround);
+}
+.main-ProfilePage-holder nav li:last-child i {
+  position: relative;
+  left: 3px;
+  top: 1px;
+  font-size: 14px;
+}
+.main-ProfilePage-holder nav > i {
+  color: var(--text-color);
+  background: var(--input-color);
+  padding: 5px 16px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+.main-ProfilePage-holder nav > i:hover {
+  background: var(--hover-backGround);
+}
+.main-ProfilePage-holder .bigBigHolder {
+  display: flex;
+  gap: 20px;
+  margin-top: 35px;
+  padding-bottom: 30px;
+}
+.main-ProfilePage-holder .bigBigHolder .left {
+  width: 44%;
+  display: flex;
+  align-items: flex-start;
+  transition: 0.3s;
+}
+.main-ProfilePage-holder .bigBigHolder .left .holder {
+  position: relative;
+  width: 100%;
+  background: var(--input-color);
+  border-radius: 8px;
+  padding: 12px 20px;
+  height: fit-content;
+  transition: transform 0.3s;
+}
+.main-ProfilePage-holder .bigBigHolder .left .top {
+  margin: 0 0 12px 3px;
+  font-weight: 500;
+}
+.main-ProfilePage-holder .bigBigHolder .left .top span {
+  font-weight: 700;
+}
+.main-ProfilePage-holder .bigBigHolder .left .friends {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  column-gap: 14px;
+  row-gap: 8px;
+}
+.main-ProfilePage-holder .bigBigHolder .left .friends .friend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.main-ProfilePage-holder .bigBigHolder .left .friends img {
+  width: 100%;
+  height: 100%;
+  border-radius: 13px;
+}
+.main-ProfilePage-holder .bigBigHolder .left .friends h5 {
+
+}
+
+
+
+.main-ProfilePage-holder .bigBigHolder .right {
+  width: 56%;
+}
+.main-ProfilePage-holder .bigBigHolder .right .manege-post-holder {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: var(--input-color);
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-bottom: 25px;
+}
+.main-ProfilePage-holder .bigBigHolder .right .filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.main-ProfilePage-holder .bigBigHolder .right .filters h2 {
+  font-size: 19px;
+  font-weight: 600;
+}
+.main-ProfilePage-holder .bigBigHolder .right .profile-buttons {
+
+}
+.main-ProfilePage-holder .bigBigHolder .right .profile-buttons button {
+  background: var(--hover-backGround2);
+  font-size: 16px;
+  padding: 8px 12px;
+}
+.main-ProfilePage-holder .bigBigHolder .right {
+
+}
+.main-ProfilePage-holder .bigBigHolder .right .list-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.main-ProfilePage-holder .bigBigHolder .right .list-grid button {
+  width: 48%;
+  border-radius: 6px;
+  padding: 10px 0;
+  font-size: 15px;
+  color: var(--text-color);
+  cursor: pointer;
+  position: relative;
+}
+.main-ProfilePage-holder .bigBigHolder .right .list-grid button:hover {
+  background: var(--hover-backGround);
+}
+.main-ProfilePage-holder .bigBigHolder .right .list-grid button.active:hover {
+  background: transparent;
+}
+.main-ProfilePage-holder .bigBigHolder .right .list-grid button.active::before {
+  content: "";
+  position: absolute;
+  bottom: -11px;
+  left: 50%;
+  width: 80%;
+  height: 4px;
+  background: var(--main-color);
+  transform: translatex(-50%);
+}
+
+.main-ProfilePage-holder .userPosts .post {
+  margin-bottom: 25px;
+}
+.main-ProfilePage-holder .userPosts.active .post .holder,
+.main-ProfilePage-holder .userPosts .gridTitle,
+.main-ProfilePage-holder .userPosts .gridComment {
+  display: none;
+}
+
+
+.main-ProfilePage-holder .userPosts.active {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.main-ProfilePage-holder .userPosts.active .post {
+  padding: 0;
+  margin-bottom: 0px;
+  height: 360px;
+  position: relative;
+  cursor: pointer;
+}
+.main-ProfilePage-holder .userPosts.active .post .main-img {
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+}
+
+.main-ProfilePage-holder .userPosts.active .grid-img-holder {
+  height: 100%;
+}
+.main-ProfilePage-holder .userPosts.active .grid-img-holder::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #00000085;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 1;
+}
+.main-ProfilePage-holder .userPosts.active .post:hover .grid-img-holder::before {
+  opacity: 1;
+}
+
+.main-ProfilePage-holder .userPosts.active .gridTitle {
+  display: flex;
+  position: absolute;
+  left: 15px;
+  bottom: 10px;
+  z-index: 1;
+  font-weight: 500;
+  font-size: 8px;
+  transition: 0.3s;
+  opacity: 0;
+  overflow-wrap: anywhere;
+}
+.main-ProfilePage-holder .userPosts.active .gridComment {
+  display: flex;
+  font-size: 8px;
+  gap: 3px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  transition: 0.3s;
+  opacity: 0;
+}
+.main-ProfilePage-holder .userPosts.active .gridComment i {
+  position: relative;
+  top: 2px;
+}
+
+
+.main-ProfilePage-holder .userPosts.active .post:hover .gridTitle, 
+.main-ProfilePage-holder .userPosts.active .post:hover .gridComment {
+  font-size: 16px;
+  opacity: 1;
+}
+
+
+
+
+
+
+/* 
+.categoriesHolder.active .categories {
+  width: 20%;
+  position: fixed;
+  z-index: 90;
+  top: 30px;
+}
+.categoriesHolder.delete .categories {
+  max-width: none;
+  min-width: 103%;
+}
+.shop .cont .categoriesHolder.delete {
+  display: flex;
+  align-items: flex-end;
+  bottom: 30px;
+}
+.categoriesHolder.delete .categories {
+  position: relative !important;
+  width: 100% !important;
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:1400px) {
+  .main-ProfilePage-holder .bigBigHolder .left .friends {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+  }
+}
+@media(max-width:1200px) {
+
+}
+@media(max-width:992px) {
+  .main-ProfilePage-holder {
+    margin-top: 60px;
+  }
+  .main-ProfilePage-holder .user-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  .user-info .user-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .main-ProfilePage-holder .user-info .holder {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .main-ProfilePage-holder .user-info {
+    margin-top: -97px;
+  }
+  .main-ProfilePage-holder .user-info .user-name .info {
+    font-size: 20px;
+  }
+  .main-ProfilePage-holder .bigBigHolder {
+    flex-direction: column;
+    padding: 0;
+  }
+  .main-ProfilePage-holder .bigBigHolder .left {
+    width: 100%;
+    max-width: none;
+  }
+  .main-ProfilePage-holder .bigBigHolder .right {
+    width: 100%;
+  }
+
+
+  .main-ProfilePage-holder .bigBigHolder .left .friends {
+    display: flex;
+    overflow: auto;
+    gap: 18px;
+    padding-bottom: 10px;
+  }
+  .main-ProfilePage-holder .bigBigHolder .left .holder {
+    padding: 15px 22px 0;
+  }
+  .main-ProfilePage-holder .bigBigHolder .left .friends .friend {
+    min-width: 31%;
+  }
+  .main-ProfilePage-holder .bigBigHolder .left .top {
+    font-size: 20px;
+  }
+  
+}
+@media(max-width:768px) {
+  .main-ProfilePage-holder nav {
+    display: flex;
+    justify-content: center;
+    padding: 12px 0 0 0;
+  }
+  .main-ProfilePage-holder nav li:last-child,
+  .main-ProfilePage-holder nav li a {
+    font-size: 15px;
+    padding: 5px 6px;
+  }
+  .main-ProfilePage-holder nav li:nth-child(6) {
+    display: none;
+  }
+  .main-ProfilePage-holder nav > i {
+    display: none;
+  }
+  .main-ProfilePage-holder .image-cover button {
+    font-size: 12px; 
+    bottom: 122px;
+    right: 18px;
+  }
+  .main-ProfilePage-holder .bigBigHolder .left .friends {
+    gap: 11px;
+  }
+  .main-ProfilePage-holder .bigBigHolder .left .top {
+    margin: -6px 0 7px 1px;
+    font-size: 16px; 
+  }
+  .main-ProfilePage-holder .bigBigHolder .left .holder {
+    padding: 15px 14px 0;
+  }
+  .main-ProfilePage-holder .userPosts.active {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+  .main-ProfilePage-holder .user-info .user-name h1 {
+    font-size: 28px;
+  }
+}
+
+
+@media(max-width: 400px) {
+  .main-ProfilePage-holder nav li:last-child,
+  .main-ProfilePage-holder nav li a {
+    font-size: 13px;
+    padding: 5px 4px;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(min-width:1200px) {
+  .main-ProfilePage-holder .bigBigHolder .left.start .holder {
+    position: fixed;
+    width: 36%;
+    top: 75px;
+    max-width: none;
+    transform: translateX(3px); 
+  }
+  .main-ProfilePage-holder .bigBigHolder .left.stop .holder {
+    transform: translateY(227px);
+  }
+}
+@media(min-width:1300px) {
+  .main-ProfilePage-holder .bigBigHolder .left.start .holder {
+    width: 33% !important; 
+  }
+}
+@media(min-width:1400px) {
+  .main-ProfilePage-holder .bigBigHolder .left.start .holder {
+    width: 37% !important;
+  }
+}
+@media(min-width:1500px) {
+  .main-ProfilePage-holder .bigBigHolder .left.start .holder {
+    width: 34% !important;
+  }
+}
+@media(min-width:1600px) {
+  .bigBigHolder .left.start .holder {
+    max-width: 33% !important;
+  }
+}
+@media(min-width:1700px) {
+  .bigBigHolder .left.start .holder {
+    max-width: 31% !important;
+  }
+}
+@media(min-width:1800px) {
+  .main-ProfilePage-holder .bigBigHolder .left.start .holder {
+    width: 29% !important;
+  }
+}
+@media(min-width:1900px) {
+  .main-ProfilePage-holder .bigBigHolder .left.start .holder {
+    width: 28% !important;
+  }
+}
+
