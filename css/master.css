@@ -217,9 +217,11 @@ body.dark .post {
 .post .other h3.reacts-btn div img {
   width: 25px; 
 }
+.post .other h3.reacts-btn.active div h4,
 .post .other h3.reacts-btn.active div  {
   color: var(--main-color);
 }
+
 .post .other .reacts-holder {
   display: flex;
   gap: 7px;

@@ -41,7 +41,6 @@ function getPosts (reload = true, page = 1) {
       `
     }
 
-    let isliked = false
 
     let isReacted = basket.find((x) => x.id === post.id)
     if (isReacted) {
@@ -56,13 +55,13 @@ function getPosts (reload = true, page = 1) {
           <h4 style="color: ${isReacted.color}; font-size: 16px;">${isReacted.emoje}</h4>
         `
       }
-      isliked = true
+      isliked = "active"
     } else {
       postEmoje =`
         <i class="fa-regular fa-thumbs-up"></i>
         Like
       `
-      isliked = false
+      isliked = ""
     }
     let content = `
     <div class="post" id="${post.id}">
@@ -112,7 +111,7 @@ function getPosts (reload = true, page = 1) {
           <img onclick="clickEmoje(${post.id}, 'Angry', '#cb732b')" src="img/emoji img/angry.svg"></img>
         </div>
 
-          <h3 onclick="clickLike(${post.id})" onmouseenter="showReactsHolder(${post.id})" onmouseleave="hideReactsHolder(${post.id})" class="reacts-btn" id="reacts-btn-holder-${post.id}">
+          <h3 onclick="clickLike(${post.id})" onmouseenter="showReactsHolder(${post.id})" onmouseleave="hideReactsHolder(${post.id})" class="reacts-btn ${isliked}" id="reacts-btn-holder-${post.id}">
               <div id="reacts-btn-${post.id}">
                 ${postEmoje}
               </div>
@@ -583,15 +582,27 @@ function closeDeletePost() {
 //!======= Emoje =======
 
 function clickLike(postId) {
-  isliked = true
   let likeBtn = document.getElementById(`reacts-btn-${postId}`)
   let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
       if (likeBtn.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> Like` && !likeBtnHolder.classList.contains("active")) {
         likeBtn.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> Like`
         likeBtnHolder.classList.add("active")
+          let search = basket.find((x) => x.id === postId) 
+          if (search === undefined) {
+            basket.push({
+              id: postId,
+              emoje: "Like",
+            }) 
+          } else {
+            search.emoje = "Like"
+          }
+          localStorage.setItem("addReact", JSON.stringify(basket))
       } else if (likeBtn.innerHTML != `<i class="fa-regular fa-thumbs-up"></i> Like` && likeBtnHolder.classList.contains("active")) {
         likeBtn.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> Like`
         likeBtnHolder.classList.remove("active")
+
+        basket = basket.filter((x) => x.id !== postId)
+        localStorage.setItem("addReact", JSON.stringify(basket))
       }
 }
 function showReactsHolder (postId) {
@@ -605,7 +616,6 @@ function hideReactsHolder (postId) {
   }, 500);
 }
 function clickEmoje(postId, type, color) {
-  isliked = true
   let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
   likeBtnHolder.classList.add("active")
   document.getElementById(`reacts-btn-${postId}`).innerHTML = `
@@ -626,7 +636,6 @@ function clickEmoje(postId, type, color) {
   localStorage.setItem("addReact", JSON.stringify(basket))
 }
 function clickLikeEmoje(postId) {
-  isliked = true
   let likeBtn = document.getElementById(`reacts-btn-${postId}`)
   likeBtn.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> Like`
   let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
