@@ -1,4 +1,6 @@
-let basket = JSON.parse(localStorage.getItem("addReact")) || []   
+let emojePasket = JSON.parse(localStorage.getItem("Reacts")) || []   
+let hidePasket = JSON.parse(localStorage.getItem("hide")) || []   
+let friendsPasket = JSON.parse(localStorage.getItem("friends")) || []   
 let currentPage = 1
 let lastPage = 1
 window.addEventListener("scroll", function() {
@@ -18,53 +20,65 @@ function getPosts (reload = true, page = 1) {
       document.querySelector(".All-Posts").innerHTML = ""
   }
   for(let post of posts) {
-    let user = getCurrentUser()
-    let isMyPost = user != null && post.author.id == user.id
-    let postSettingMenue = ``
-    if(isMyPost) {
-      postSettingMenue = `
-        <li onclick="openAddEditPost(false, '${encodeURIComponent(JSON.stringify(post))}')">
-        <i class="fa-regular fa-pen-to-square"></i> Edit Post
-        </li>
-        <li><i class="bi bi-bookmarks"></i> Save Post</li>
-        <hr>
-        <li class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
-        <li onclick="openDeletePost('${encodeURIComponent(JSON.stringify(post))}')" class="red-hover"><i class="bi bi-trash"></i> Delete Post</li>
-      `
-    } else {
-      postSettingMenue = `
-        <li><i class="bi bi-bookmarks"></i> Save Post</li>
-        <li><i class="bi bi-person-plus"></i> Add Frind</li>
-        <hr>
-        <li class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
-        <li class="red-hover"><i class="bi bi-exclamation-circle"></i> Report Post</li>
-      `
-    }
-
-
-    let isReacted = basket.find((x) => x.id === post.id)
-    if (isReacted) {
-      if (isReacted.emoje == "Like") {
-        postEmoje =`
-          <i class="fa-solid fa-thumbs-up"></i>
-          <h4 font-size: 16px;">${isReacted.emoje}</h4>
-      `
+    //! allChecksInPost
+      let user = getCurrentUser()
+      let isMyPost = user != null && post.author.id == user.id
+      let postSettingMenue = ``
+      if(isMyPost) {
+        postSettingMenue = `
+          <li onclick="openAddEditPost(false, '${encodeURIComponent(JSON.stringify(post))}')">
+          <i class="fa-regular fa-pen-to-square"></i> Edit Post</li>
+          <li><i class="bi bi-bookmarks"></i> Save Post</li>
+          <hr>
+          <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
+          <li onclick="openDeletePost('${encodeURIComponent(JSON.stringify(post))}')" class="red-hover"><i class="bi bi-trash"></i> Delete Post</li>
+        `
       } else {
-          postEmoje =`
-          <img src="img/emoji img/${isReacted.emoje}.svg"></img>
-          <h4 style="color: ${isReacted.color}; font-size: 16px;">${isReacted.emoje}</h4>
+        postSettingMenue = `
+          <li><i class="bi bi-bookmarks"></i> Save Post</li>
+          <li class="addFriendBtn" onclick="clickAddFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-plus"></i> Add Frind</li>
+          <li class="removeFriendBtn" onclick="clickRemoveFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-x"></i> Remove Frind</li>
+          <hr>
+          <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
+          <li class="red-hover"><i class="bi bi-exclamation-circle"></i> Report Post</li>
         `
       }
-      isliked = "active"
-    } else {
-      postEmoje =`
-        <i class="fa-regular fa-thumbs-up"></i>
-        Like
-      `
-      isliked = ""
-    }
+      let isReacted = emojePasket.find((x) => x.id === post.id)
+      if (isReacted) {
+        if (isReacted.emoje == "Like") {
+          postEmoje =`
+            <i class="fa-solid fa-thumbs-up"></i>
+            <h4 font-size: 16px;">${isReacted.emoje}</h4>
+        `
+        } else {
+            postEmoje =`
+            <img src="img/emoji img/${isReacted.emoje}.svg"></img>
+            <h4 style="color: ${isReacted.color}; font-size: 16px;">${isReacted.emoje}</h4>
+          `
+        }
+        isliked = "active"
+      } else {
+        postEmoje =`
+          <i class="fa-regular fa-thumbs-up"></i>
+          Like
+        `
+        isliked = ""
+      }
+      let isHide = hidePasket.find((x) => x.id === post.id)
+      if (isHide) {
+        hidePost = "hidePost"
+      } else {
+        hidePost = ""
+      }
+      let isFriend = friendsPasket.find((x) => x.id === post.author.id)
+      if (isFriend) {
+        friendPost = "friend"
+      } else {
+        friendPost = ""
+      }
+
     let content = `
-    <div class="post" id="${post.id}">
+    <div class="post ${hidePost} ${friendPost}" id="${post.id}">
       <div class="holder">
         <div class="info">
           <div onclick="clickUserProfile(${post.author.id})" class="user">
@@ -94,7 +108,7 @@ function getPosts (reload = true, page = 1) {
               <img src="img/emoji img/like.svg" alt="">
               <img src="img/emoji img/love.svg" alt="">
               <img src="img/emoji img/haha.svg" alt="">
-              <h6>5</h6>
+              <h6>${post.comments_count + 3}</h6>
             </div>
             <h5 onclick="openSinglePost(${post.id})"><span>${post.comments_count}</span> comments</h5>
         </div>
@@ -361,6 +375,148 @@ function createCommentClicked(postId, bolem){
     })
   }
 }
+//!==== DeletePost ====
+function openDeletePost(postObject) {
+  let post = JSON.parse(decodeURIComponent(postObject))
+  document.getElementById("deletePostId").innerHTML = `${post.id}`
+
+  document.querySelector(".delete-post").classList.add("active")
+  document.querySelector(".delete-post-holder").classList.add("active")
+  body.style.setProperty("overflow", "hidden")
+}
+function DeletePost () {
+
+  let postId = document.getElementById("deletePostId").textContent
+  let token = localStorage.getItem("token")
+    axios.delete(`http://tarmeezAcademy.com/api/v1/posts/${postId}`, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "authorization": `Bearer ${token}`
+      }
+    })
+    .then((response) => {
+      closeDeletePost()
+      mainAlert("success", "check", "Good", "your post has been deleted successfully")
+      openAlert()
+      getPosts()
+      closeSinglePost()
+    })
+    .catch((error) => {
+      mainAlert("error", "exclamation", "warning", error.response.data.message)
+      openAlert()
+    }) 
+}
+function closeDeletePost() {
+  document.querySelector(".delete-post").classList.remove("active")
+  document.querySelector(".delete-post-holder").classList.remove("active")
+  body.style.setProperty("overflow", "hidden")
+}
+//!====== Emoje ======
+
+function clickLike(postId) {
+  let likeBtn = document.getElementById(`reacts-btn-${postId}`)
+  let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
+      if (likeBtn.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> Like` && !likeBtnHolder.classList.contains("active")) {
+        likeBtn.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> Like`
+        likeBtnHolder.classList.add("active")
+          let search = emojePasket.find((x) => x.id === postId) 
+          if (search === undefined) {
+            emojePasket.push({
+              id: postId,
+              emoje: "Like",
+            }) 
+          } else {
+            search.emoje = "Like"
+          }
+          localStorage.setItem("Reacts", JSON.stringify(emojePasket))
+      } else if (likeBtn.innerHTML != `<i class="fa-regular fa-thumbs-up"></i> Like` && likeBtnHolder.classList.contains("active")) {
+        likeBtn.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> Like`
+        likeBtnHolder.classList.remove("active")
+
+        emojePasket = emojePasket.filter((x) => x.id !== postId)
+        localStorage.setItem("Reacts", JSON.stringify(emojePasket))
+      }
+}
+function showReactsHolder (postId) {
+  setTimeout(() => {
+    document.getElementById(`reacts-holder-${postId}`).classList.add("active")
+  }, 500);
+}
+function hideReactsHolder (postId) {
+  setTimeout(() => {
+    document.getElementById(`reacts-holder-${postId}`).classList.remove("active")
+  }, 500);
+}
+function clickEmoje(postId, type, color) {
+  let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
+  likeBtnHolder.classList.add("active")
+  document.getElementById(`reacts-btn-${postId}`).innerHTML = `
+    <img src="img/emoji img/${type}.svg"></img>
+    <h4 style="color: ${color}; font-size: 16px;">${type}</h4>
+  `
+  let search = emojePasket.find((x) => x.id === postId) 
+  if (search === undefined) {
+    emojePasket.push({
+      id: postId,
+      emoje: type,
+      color: color
+    }) 
+  } else {
+    search.emoje = type
+    search.color = color
+  }
+  localStorage.setItem("Reacts", JSON.stringify(emojePasket))
+}
+function clickLikeEmoje(postId) {
+  let likeBtn = document.getElementById(`reacts-btn-${postId}`)
+  likeBtn.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> Like`
+  let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
+  likeBtnHolder.classList.add("active")
+  let search = emojePasket.find((x) => x.id === postId) 
+  if (search === undefined) {
+    emojePasket.push({
+      id: postId,
+      emoje: "Like",
+    }) 
+  } else {
+    search.emoje = "Like"
+  }
+  localStorage.setItem("Reacts", JSON.stringify(emojePasket))
+}
+function clickHidePost(postId) {
+  let post = document.getElementById(`${postId}`)
+  post.classList.add("hidePost")
+  let search = hidePasket.find((x) => x.id === postId) 
+  if (search === undefined) {
+    hidePasket.push({
+      id: postId,
+    }) 
+  }
+  localStorage.setItem("hide", JSON.stringify(hidePasket))
+}
+function clickAddFriends(userObject) {
+  let post = JSON.parse(decodeURIComponent(userObject))
+  let webpost = document.getElementById(`${post.id}`)
+  webpost.classList.add("friend")
+  let search = friendsPasket.find((x) => x.id === post.author.id) 
+  if (search === undefined) {
+    friendsPasket.push({
+      id: post.author.id,
+      name: post.author.name,
+      img: post.author.profile_image
+    })
+  }
+  localStorage.setItem("friends", JSON.stringify(friendsPasket)) 
+}
+function clickRemoveFriends(userObject) {
+  let post = JSON.parse(decodeURIComponent(userObject))
+  let webpost = document.getElementById(`${post.id}`)
+  webpost.classList.remove("friend")
+  friendsPasket = friendsPasket.filter((x) => x.id !== post.author.id)
+  localStorage.setItem("friends", JSON.stringify(friendsPasket))
+}
+
+
 //!======= Single Post =======
 let seePost = document.querySelector(".see-post") 
 let inglePostHolder = document.querySelector(".single-post-holder") 
@@ -368,46 +524,79 @@ let inglePostHolder = document.querySelector(".single-post-holder")
 function openSinglePost(postId) {
   axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
   .then((response) => {
-    let info = response.data.data
-    
-    let user = getCurrentUser()
-    let isMyPost = user != null && info.author.id == user.id
-    let postSettingMenue = ``
-    if(isMyPost) {
-      postSettingMenue = `
-        <li onclick="openAddEditPost(false,'${encodeURIComponent(JSON.stringify(info))}')">
-        <i class="fa-regular fa-pen-to-square"></i> Edit Post
-        </li>
-        <li><i class="bi bi-bookmarks"></i> Save Post</li>
-        <hr>
-        <li class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
-        <li onclick="openDeletePost('${encodeURIComponent(JSON.stringify(info))}')" class="red-hover"><i class="bi bi-trash"></i> Delete Post</li>
-      `
-    } else {
-      postSettingMenue = `
-        <li><i class="bi bi-bookmarks"></i> Save Post</li>
-        <li><i class="bi bi-person-plus"></i> Add Frind</li>
-        <hr>
-        <li class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
-        <li class="red-hover"><i class="bi bi-exclamation-circle"></i> Report Post</li>
-      `
-    }
+    let post = response.data.data
+    //! allChecksInPost
+      let user = getCurrentUser()
+      let isMyPost = user != null && post.author.id == user.id
+      let postSettingMenue = ``
+      if(isMyPost) {
+        postSettingMenue = `
+          <li onclick="openAddEditPost(false, '${encodeURIComponent(JSON.stringify(post))}')">
+          <i class="fa-regular fa-pen-to-square"></i> Edit Post</li>
+          <li><i class="bi bi-bookmarks"></i> Save Post</li>
+          <hr>
+          <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
+          <li onclick="openDeletePost('${encodeURIComponent(JSON.stringify(post))}')" class="red-hover"><i class="bi bi-trash"></i> Delete Post</li>
+        `
+      } else {
+        postSettingMenue = `
+          <li><i class="bi bi-bookmarks"></i> Save Post</li>
+          <li class="addFriendBtn" onclick="clickAddFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-plus"></i> Add Frind</li>
+          <li class="removeFriendBtn" onclick="clickRemoveFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-x-fill"></i> Remove Frind</li>
+          <hr>
+          <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
+          <li class="red-hover"><i class="bi bi-exclamation-circle"></i> Report Post</li>
+        `
+      }
+      let isReacted = emojePasket.find((x) => x.id === post.id)
+      if (isReacted) {
+        if (isReacted.emoje == "Like") {
+          postEmoje =`
+            <i class="fa-solid fa-thumbs-up"></i>
+            <h4 font-size: 16px;">${isReacted.emoje}</h4>
+        `
+        } else {
+            postEmoje =`
+            <img src="img/emoji img/${isReacted.emoje}.svg"></img>
+            <h4 style="color: ${isReacted.color}; font-size: 16px;">${isReacted.emoje}</h4>
+          `
+        }
+        isliked = "active"
+      } else {
+        postEmoje =`
+          <i class="fa-regular fa-thumbs-up"></i>
+          Like
+        `
+        isliked = ""
+      }
+      let isHide = hidePasket.find((x) => x.id === post.id)
+      if (isHide) {
+        hidePost = "hidePost"
+      } else {
+        hidePost = ""
+      }
+      let isFriend = friendsPasket.find((x) => x.id === post.author.id)
+      if (isFriend) {
+        friendPost = "friend"
+      } else {
+        friendPost = ""
+      }
 
     inglePostHolder.innerHTML = 
     `
     <i onclick="closeSinglePost()" class="fa-solid fa-xmark seePostClose"></i>
-    <div class="image imageTop"><img class="main-img" src="${info.image}" alt=""></div>
-    <div  class="post" id="${postId}">
+    <div class="image imageTop"><img class="main-img" src="${post.image}" alt=""></div>
+    <div  class="post ${friendPost}" id="${post.id}">
       <div class="seePostTopHolder">
         <div class="holder">
           <div class="info">
-            <div onclick="clickUserProfile(${info.author.id})" class="user">
+            <div onclick="clickUserProfile(${post.author.id})" class="user">
               <i onclick="closeSinglePost()" class="fa-solid fa-xmark seePostClose mopile"></i>
               <div>
-                <img src="${info.author.profile_image == "[object Object]" ? "img/aulter.png" : info.author.profile_image}" alt="">
+                <img src="${post.author.profile_image == "[object Object]" ? "img/aulter.png" : post.author.profile_image}" alt="">
                 <div class="text">
-                  <h4 class="user-name">${info.author.username}</h4>
-                  <span class="time">${info.created_at}</span>
+                  <h4 class="user-name">${post.author.username}</h4>
+                  <span class="time">${post.created_at}</span>
                 </div>
               </div>
             </div>
@@ -420,12 +609,12 @@ function openSinglePost(postId) {
             </div>
           </div>
           <div class="titles">
-            <h4>${info.title === null ? "" : info.title}</h4>
-            <p>${info.body  === null ? "" : info.body}</p>
+            <h4>${post.title === null ? "" : post.title}</h4>
+            <p>${post.body  === null ? "" : post.body}</p>
           </div>
           <hr>
         </div>
-        <div class="image imageMiddle"><img class="main-img" src="${info.image}" alt=""></div>
+        <div class="image imageMiddle"><img class="main-img" src="${post.image}" alt=""></div>
         <div class="otherUsersComment">
         
 
@@ -437,27 +626,26 @@ function openSinglePost(postId) {
               <img src="img/emoji img/like.svg" alt="">
               <img src="img/emoji img/love.svg" alt="">
               <img src="img/emoji img/haha.svg" alt="">
-              <h6>5</h6>
+              <h6>${post.comments_count + 3}</h6>
             </div>
-            <h5><span>${info.comments_count}</span> comments</h5>
+            <h5><span>${post.comments_count}</span> comments</h5>
         </div>
         <hr>
         <div class="other">
 
-        <div id="reacts-holder-${info.id}" class="reacts-holder">
-          <img onclick="clickLikeEmoje(${info.id})" src="img/emoji img/like.svg"></img>
-          <img onclick="clickEmoje(${info.id}, 'Love', '#e65065')" src="img/emoji img/love.svg"></img>
-          <img onclick="clickEmoje(${info.id}, 'Care', '#e0a93b')" src="img/emoji img/care.svg"></img>
-          <img onclick="clickEmoje(${info.id}, 'Haha', '#e0a93b')" src="img/emoji img/haha.svg"></img>
-          <img onclick="clickEmoje(${info.id}, 'wow', '#e0a93b')" src="img/emoji img/wow.svg"></img>
-          <img onclick="clickEmoje(${info.id}, 'Sad', '#e0a93b')" src="img/emoji img/sad.svg"></img>
-          <img onclick="clickEmoje(${info.id}, 'Angry', '#cb732b')" src="img/emoji img/angry.svg"></img>
+        <div id="reacts-holder-${post.id}" class="reacts-holder">
+          <img onclick="clickLikeEmoje(${post.id})" src="img/emoji img/like.svg"></img>
+          <img onclick="clickEmoje(${post.id}, 'Love', '#e65065')" src="img/emoji img/love.svg"></img>
+          <img onclick="clickEmoje(${post.id}, 'Care', '#e0a93b')" src="img/emoji img/care.svg"></img>
+          <img onclick="clickEmoje(${post.id}, 'Haha', '#e0a93b')" src="img/emoji img/haha.svg"></img>
+          <img onclick="clickEmoje(${post.id}, 'wow', '#e0a93b')" src="img/emoji img/wow.svg"></img>
+          <img onclick="clickEmoje(${post.id}, 'Sad', '#e0a93b')" src="img/emoji img/sad.svg"></img>
+          <img onclick="clickEmoje(${post.id}, 'Angry', '#cb732b')" src="img/emoji img/angry.svg"></img>
         </div>
 
-          <h3 onclick="clickLike(${info.id})" onmouseenter="showReactsHolder(${info.id})" onmouseleave="hideReactsHolder(${info.id})" class="reacts-btn" id="reacts-btn-holder-${info.id}">
-              <div id="reacts-btn-${info.id}">
-                <i class="fa-regular fa-thumbs-up"></i>
-                Like
+          <h3 onclick="clickLike(${post.id})" onmouseenter="showReactsHolder(${post.id})" onmouseleave="hideReactsHolder(${post.id})" class="reacts-btn ${isliked}"" id="reacts-btn-holder-${post.id}">
+              <div id="reacts-btn-${post.id}">
+                ${postEmoje}
               </div>
 
           </h3>
@@ -473,8 +661,8 @@ function openSinglePost(postId) {
         <div id="send-comment" class="send-comment">
           <img src="img/icon.jpeg" alt="">
           <div class="input">
-          <textarea name="" id="comment-input-${postId}" placeholder="Type a Comment"></textarea>
-          <i onclick="createCommentClicked(${postId}, true)" class="bi bi-send" id="xasxax"></i>
+          <textarea name="" id="comment-input-${post.id}" placeholder="Type a Comment"></textarea>
+          <i onclick="createCommentClicked(${post.id}, true)" class="bi bi-send" id="xasxax"></i>
           </div>
         </div>
       </div>
@@ -543,111 +731,4 @@ function singlePostComments (response, bolem, postId) {
     let sendCommentIcon = document.getElementById("xasxax")
     sendCommentIcon.classList.add("notLog")
   }
-}
-//!======= DeletePost =======
-function openDeletePost(postObject) {
-  let post = JSON.parse(decodeURIComponent(postObject))
-  document.getElementById("deletePostId").innerHTML = `${post.id}`
-
-  document.querySelector(".delete-post").classList.add("active")
-  document.querySelector(".delete-post-holder").classList.add("active")
-  body.style.setProperty("overflow", "hidden")
-}
-function DeletePost () {
-
-  let postId = document.getElementById("deletePostId").textContent
-  let token = localStorage.getItem("token")
-    axios.delete(`http://tarmeezAcademy.com/api/v1/posts/${postId}`, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "authorization": `Bearer ${token}`
-      }
-    })
-    .then((response) => {
-      closeDeletePost()
-      mainAlert("success", "check", "Good", "your post has been deleted successfully")
-      openAlert()
-      getPosts()
-    })
-    .catch((error) => {
-      mainAlert("error", "exclamation", "warning", error.response.data.message)
-      openAlert()
-    }) 
-}
-function closeDeletePost() {
-  document.querySelector(".delete-post").classList.remove("active")
-  document.querySelector(".delete-post-holder").classList.remove("active")
-  body.style.setProperty("overflow", "hidden")
-}
-//!======= Emoje =======
-
-function clickLike(postId) {
-  let likeBtn = document.getElementById(`reacts-btn-${postId}`)
-  let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
-      if (likeBtn.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> Like` && !likeBtnHolder.classList.contains("active")) {
-        likeBtn.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> Like`
-        likeBtnHolder.classList.add("active")
-          let search = basket.find((x) => x.id === postId) 
-          if (search === undefined) {
-            basket.push({
-              id: postId,
-              emoje: "Like",
-            }) 
-          } else {
-            search.emoje = "Like"
-          }
-          localStorage.setItem("addReact", JSON.stringify(basket))
-      } else if (likeBtn.innerHTML != `<i class="fa-regular fa-thumbs-up"></i> Like` && likeBtnHolder.classList.contains("active")) {
-        likeBtn.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> Like`
-        likeBtnHolder.classList.remove("active")
-
-        basket = basket.filter((x) => x.id !== postId)
-        localStorage.setItem("addReact", JSON.stringify(basket))
-      }
-}
-function showReactsHolder (postId) {
-  setTimeout(() => {
-    document.getElementById(`reacts-holder-${postId}`).classList.add("active")
-  }, 500);
-}
-function hideReactsHolder (postId) {
-  setTimeout(() => {
-    document.getElementById(`reacts-holder-${postId}`).classList.remove("active")
-  }, 500);
-}
-function clickEmoje(postId, type, color) {
-  let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
-  likeBtnHolder.classList.add("active")
-  document.getElementById(`reacts-btn-${postId}`).innerHTML = `
-    <img src="img/emoji img/${type}.svg"></img>
-    <h4 style="color: ${color}; font-size: 16px;">${type}</h4>
-  `
-  let search = basket.find((x) => x.id === postId) 
-  if (search === undefined) {
-    basket.push({
-      id: postId,
-      emoje: type,
-      color: color
-    }) 
-  } else {
-    search.emoje = type
-    search.color = color
-  }
-  localStorage.setItem("addReact", JSON.stringify(basket))
-}
-function clickLikeEmoje(postId) {
-  let likeBtn = document.getElementById(`reacts-btn-${postId}`)
-  likeBtn.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> Like`
-  let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
-  likeBtnHolder.classList.add("active")
-  let search = basket.find((x) => x.id === postId) 
-  if (search === undefined) {
-    basket.push({
-      id: postId,
-      emoje: "Like",
-    }) 
-  } else {
-    search.emoje = "Like"
-  }
-  localStorage.setItem("addReact", JSON.stringify(basket))
 }

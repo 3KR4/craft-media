@@ -22,9 +22,26 @@
   background: #e6e6e6;
   box-shadow: none;
 }
+.post.hidePost {
+  display: none;
+}
+.post .removeFriendBtn {
+  display: none !important;
+}
+.post.friend .removeFriendBtn {
+  display: flex !important;
+}
+.post .addFriendBtn {
+  display: flex !important;
+}
+.post.friend .addFriendBtn {
+  display: none !important;
+}
+.post.hidePost {
+  display: none;
+}
 body.dark .post {
   background: var(--input-color);
-  box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.1);
 }
 .post .holder {
   padding: 0 20px;
@@ -105,7 +122,7 @@ body.dark .post {
 .post .info .icon-setting .postSettingMenu {
   position: absolute;
   background: var(--input-color);
-  width: 171px;
+  width: 185px;
   right: 0;
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -148,6 +165,8 @@ body.dark .post {
 }
 .post .main-img {
   width: 100%;
+  max-height: 750px;
+  object-fit: fill;
   margin: 18px 0 10px;
   cursor: pointer;
 }

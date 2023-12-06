@@ -13,6 +13,10 @@ function userProfileInfo () {
       document.getElementById("userName").innerHTML = user.name
       document.getElementById("userPostsCount").innerHTML = user.posts_count
       document.getElementById("userTweet").innerHTML = user.comments_count
+      let userFriendsCount = document.querySelectorAll(".userFriendsCount")
+      for (let frindsNumper of userFriendsCount) {
+        frindsNumper.innerHTML = friendsPasket.length
+      }
     })
 }
 userProfileInfo()
@@ -49,6 +53,25 @@ if (localStorage.getItem("post-style") === "list") {
 }
 }
 listOrGrid ()
+let getUserFriends = () => {   
+  let friendsHolder = document.querySelector(".bigBigHolder .left .friends")
+  if (friendsPasket.length !== 0) {   
+    friendsPasket.reverse()
+    return (friendsHolder.innerHTML = friendsPasket.map((x) => {
+        return `
+        <div  class="friend">
+          <i onclick="clickRemoveFriendsinProfile('${encodeURIComponent(JSON.stringify(x))}')" class="bi bi-x close"></i>
+          <img onclick="clickUserProfile(${x.id})" src="${x.img == "[object Object]" ? "img/aulter.png" : x.img}" alt="">
+          <h5 onclick="clickUserProfile(${x.id})">${x.name}</h5>
+        </div>
+        `
+      }).join("")
+    )
+  } else {   
+    document.querySelector(".bigBigHolder .left").innerHTML = ""
+  }
+}
+getUserFriends() 
 function getUserPosts () {
   let id = getCurrentUserId()
   axios.get(`http://tarmeezAcademy.com/api/v1/users/${id}/posts`)
@@ -173,8 +196,6 @@ getUserPosts()
 let leftHolder = document.querySelector(".bigBigHolder .left")
 
 window.addEventListener("scroll", function () {
-  console.log(window.scrollY);
-  console.log(document.body.scrollHeight);
   leftHolder.classList.toggle("start", window.scrollY > 665);
 },);
 window.addEventListener("scroll", function () {
@@ -184,5 +205,10 @@ window.addEventListener("scroll", function () {
 
 
 
-console.log(window.scrollY);
 
+function  clickRemoveFriendsinProfile (userFriend) {
+  let post = JSON.parse(decodeURIComponent(userFriend))
+  friendsPasket = friendsPasket.filter((x) => x.id !== post.id)
+  localStorage.setItem("friends", JSON.stringify(friendsPasket))
+  getUserFriends()
+}
