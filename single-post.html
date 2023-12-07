@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-grid.min.css">
   <link rel="stylesheet" href="css/master.css">
   <link rel="stylesheet" href="css/Header-Footer.css">
-  <link rel="stylesheet" href="css/profile.css">
   <script src="node_modules/axios/dist/axios.min.js"></script>
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +23,6 @@
   <div class="header">
 
   </div>
-  <i onclick="openAddEditPost(true)" class="bi bi-box-arrow-in-down add-post-icon"></i>
   <div class="add-post model">
     <div class="add-post-holder open-model container">
       <span id="post-id-input" style="display: none;"></span>
@@ -38,7 +36,7 @@
         <input id="postTitleInput" required type="text" placeholder="Enter the title of the post...">
         <textarea required id="postBodyInput" name="" id="" rows="2" placeholder="what's on your mind.?"></textarea>
         <div class="add-post-img">
-          <img class="imageSelected" src="img/f2QSQriSxD90EM7.jpg"></img>
+          <img class="imageSelected" src=""></img>
           <div class="content">
             <i class="bi bi-download"></i>
             <h5>Click Here to upload an image</h5>
@@ -50,8 +48,10 @@
     </div>
   </div>
   <div class="see-post model">
-    <div class="single-post-holder open-model container">
+    <div class="singlePostPage">
+      <div class="single-post-holder open-model">
 
+      </div>
     </div>
   </div>
   <div class="delete-post model">
@@ -71,78 +71,12 @@
   <div class="alert">
 
   </div>
-
-  <div class="main-ProfilePage-holder container">
-    <div class="image-cover">
-      <img src="img/profile background.jpg" alt="">
-    </div>
-    <div class="user-info">
-      <img id="userImage" src="img/aulter.png" alt="">
-      <div class="holder">
-        <div class="user-name">
-          <h1 id="userName"></h1>
-          <div class="info">
-            <h5><span id="userPostsCount">0</span> Posts</h5>
-            <h5><span class="userFriendsCount">0</span> Friends</h5>
-            <h5><span id="userTweet">0</span> Tweet</h5>
-          </div>
-        </div>
-        <div class="profile-buttons my">
-          <button onclick="openAddEditPost(true)"><i class="fa-solid fa-plus"></i> Add Post</button>
-          <button><i class="fa-solid fa-pen"></i> Edit Profile</button>
-        </div>
-        <div class="profile-buttons notMY added">
-          <button class="addFriendProfile" onclick="addFrindIntopProfile()"><i class="bi bi-person-plus"></i> Add Friend</button>
-          <button class="removeFriendProfile" onclick="removeFrindIntopProfile()"><i class="bi bi-person-x"></i> Remove Friend</button>
-          <button class="messageFriendProfile"><i class="bi bi-messenger"></i> Message</button>
-        </div>
-      </div>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="">Posts</a></li>
-        <li><a href="">About</a></li>
-        <li><a href="">Friends</a></li>
-        <li><a href="">Photos</a></li>
-        <li><a href="">Videos</a></li>
-        <li><a href="">Check-ins</a></li>
-        <li>More <i class="bi bi-caret-down-fill"></i></li>
-      </ul>
-      <i class="bi bi-three-dots open"></i>
-    </nav>
-  <div class="bigBigHolder container">
-    <div class="left">
-      <div class="holder">
-        <h2 class="top"><span class="userFriendsCount">0</span> Friends</h2>
-        <div class="friends">
-
-        </div>
-      </div>
-    </div>
-    <div class="right">
-      <div class="manege-post-holder">
-        <div class="filters">
-          <h2>Posts</h2>
-          <div class="profile-buttons">
-            <button><i class="bi bi-sliders2"></i> Filters</button>
-          </div>
-        </div>
-        <hr>
-        <div class="list-grid">
-          <button class="active"><i class="bi bi-grid-fill"></i> Grid View</button>
-          <button><i class="bi bi-list-ul"></i> List View</button>
-        </div>
-      </div>
-      <div class="userPosts">
-
-      </div>
-    </div>
-  </div>
 </div>
-</div>
+
+
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="Js/Header-Footer.js"></script>
   <script src="js/master.js"></script>
-  <script src="js/Profile.js"></script>
+  <script src="js/single-post.js"></script>
 </body>
 </html>

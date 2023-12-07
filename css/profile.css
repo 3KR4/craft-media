@@ -9,21 +9,6 @@
   border-bottom-right-radius: 45px;
   border-bottom-left-radius: 45px;
 }
-.main-ProfilePage-holder .image-cover button {
-  position: absolute;
-  bottom: 28px;
-  right: 30px;
-  display: flex;
-  color: var(--text-color);
-  background: var(--input-color);
-  padding: 10px 10px;
-  border-radius: 8px;
-  gap: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.3s;
-  z-index: 2;
-}
 .main-ProfilePage-holder .image-cover button:hover {
   background: var(--main-color2);
   color: white;
@@ -43,7 +28,7 @@
   padding: 0 30px;
 }
 .main-ProfilePage-holder .user-info img {
-  min-width: 160px;
+  width: 160px;
   height: 160px;
   border-radius: 50%;
   object-fit: cover;
@@ -56,12 +41,7 @@
   position: relative;
   top: -6px;
 }
-.main-ProfilePage-holder .user-info .user-name {
 
-}
-.main-ProfilePage-holder .user-info .user-name h1 {
-
-}
 .main-ProfilePage-holder .user-info .user-name .info {
   display: flex;
   gap: 13px;
@@ -77,13 +57,16 @@
   display: flex;
   gap: 10px;
 }
+.messageFriendProfile,
+.removeFriendProfile {
+  display: none;
+}
 .profile-buttons button {
-  display: flex;
+  margin-left: 2px;
   color: var(--text-color);
   background: var(--input-color);
   padding: 10px 16px;
   border-radius: 7px;
-  gap: 6px;
   font-size: 14px;
   cursor: pointer;
   transition: 0.3s;
@@ -96,6 +79,27 @@
   background: var(--main-color2);
   color: white;
 }
+.profile-buttons button i {
+  margin-right: 5px;
+}
+
+
+
+
+
+.user-info.friend .addFriendProfile {
+  display: none;
+}
+.user-info.friend .removeFriendProfile,
+.user-info.friend .messageFriendProfile {
+  display: flex;
+}
+
+
+
+
+
+
 .main-ProfilePage-holder nav {
   display: flex;
   align-items: center;
@@ -372,6 +376,15 @@
   opacity: 1;
 }
 
+.main-ProfilePage-holder .bigBigHolder.nofrind {
+  justify-content: center;
+}
+.main-ProfilePage-holder .bigBigHolder.nofrind .left {
+  display: none;
+}
+.main-ProfilePage-holder .bigBigHolder.nofrind .right {
+  width: 60%;
+}
 
 
 

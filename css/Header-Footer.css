@@ -833,6 +833,7 @@ i.open.hide {
 }
 .header .user-menu li:hover i {
   background: var(--main-color);
+  color: white;
 }
 .header .user-menu li.LogOut,
 .header .user-menu li.user {

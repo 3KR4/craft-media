@@ -3,6 +3,59 @@ function getCurrentUserId () {
   let userProfileId = urlParams.get("userid")
   return userProfileId
 }
+let getUserFriends = () => {   
+  let friendsHolder = document.querySelector(".bigBigHolder .left .friends")
+  let profileHolder = document.querySelector(".main-ProfilePage-holder .bigBigHolder")
+  if (friendsPasket.length !== 0) {
+    profileHolder.classList.remove("nofrind")   
+    friendsPasket.reverse()
+    return (friendsHolder.innerHTML = friendsPasket.map((x) => {
+        return `
+        <div  class="friend">
+          <i onclick="clickRemoveFriendsinProfile('${encodeURIComponent(JSON.stringify(x))}')" class="bi bi-x close"></i>
+          <img onclick="clickUserProfile(${x.id})" src="${x.img == "[object Object]" ? "img/aulter.png" : x.img}" alt="">
+          <h5 onclick="clickUserProfile(${x.id})">${x.name}</h5>
+        </div>
+        `
+      }).join("")
+    )
+  } else {   
+    profileHolder.classList.add("nofrind")   
+    document.querySelector(".bigBigHolder .left").innerHTML = ""
+  }
+}
+let profileHolder = document.querySelector(".main-ProfilePage-holder .bigBigHolder")
+function isMyProfile () {
+  let id = getCurrentUserId()
+  let myId = getCurrentUser()
+
+  if (Number(id) != myId.id) {
+    document.querySelector(".profile-buttons.my").style.display = "none"
+    document.querySelector(".profile-buttons.notMY").style.display = "flex"
+
+
+    profileHolder.classList.add("nofrind")   
+    document.querySelector(".bigBigHolder .left").innerHTML = ""
+    document.querySelector(".profile-buttons.my").style.display = "none"
+
+    let isFriend = friendsPasket.find((x) => x.id == id)
+    if (isFriend) {
+      document.querySelector(".main-ProfilePage-holder .user-info").classList.add("friend")
+    } else {
+      document.querySelector(".main-ProfilePage-holder .user-info").classList.remove("friend")
+    }
+
+
+  } else {
+    document.querySelector(".profile-buttons.my").style.display = "flex"
+    document.querySelector(".profile-buttons.notMY").style.display = "none"
+
+    profileHolder.classList.remove("nofrind")   
+    document.querySelector(".profile-buttons").style.display = "flex"
+    getUserFriends() 
+  }
+}
+isMyProfile()
 
 function userProfileInfo () {
   let id = getCurrentUserId()
@@ -53,25 +106,9 @@ if (localStorage.getItem("post-style") === "list") {
 }
 }
 listOrGrid ()
-let getUserFriends = () => {   
-  let friendsHolder = document.querySelector(".bigBigHolder .left .friends")
-  if (friendsPasket.length !== 0) {   
-    friendsPasket.reverse()
-    return (friendsHolder.innerHTML = friendsPasket.map((x) => {
-        return `
-        <div  class="friend">
-          <i onclick="clickRemoveFriendsinProfile('${encodeURIComponent(JSON.stringify(x))}')" class="bi bi-x close"></i>
-          <img onclick="clickUserProfile(${x.id})" src="${x.img == "[object Object]" ? "img/aulter.png" : x.img}" alt="">
-          <h5 onclick="clickUserProfile(${x.id})">${x.name}</h5>
-        </div>
-        `
-      }).join("")
-    )
-  } else {   
-    document.querySelector(".bigBigHolder .left").innerHTML = ""
-  }
-}
-getUserFriends() 
+let friendsHolder = document.querySelector(".bigBigHolder .left .friends")
+
+
 function getUserPosts () {
   let id = getCurrentUserId()
   axios.get(`http://tarmeezAcademy.com/api/v1/users/${id}/posts`)
@@ -203,6 +240,31 @@ window.addEventListener("scroll", function () {
 });
 
 
+function addFrindIntopProfile () {
+  let id = getCurrentUserId()
+  axios.get(`http://tarmeezAcademy.com/api/v1/users/${id}`)
+    .then((response) => {
+      const user = response.data.data
+      let search = friendsPasket.find((x) => x.id === user.id) 
+      if (search === undefined) {
+        friendsPasket.push({
+          id: user.id,
+          name: user.name,
+          img: user.profile_image
+        })
+      }
+      localStorage.setItem("friends", JSON.stringify(friendsPasket)) 
+      
+      document.querySelector(".main-ProfilePage-holder .user-info").classList.add("friend")
+      
+  })
+}
+function removeFrindIntopProfile () {
+  let id = getCurrentUserId()
+  friendsPasket = friendsPasket.filter((x) => x.id != id)
+  localStorage.setItem("friends", JSON.stringify(friendsPasket))
+  document.querySelector(".main-ProfilePage-holder .user-info").classList.remove("friend")
+}
 
 
 

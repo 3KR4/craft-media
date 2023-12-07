@@ -135,7 +135,7 @@ function getPosts (reload = true, page = 1) {
             Comment
             <small>you need to login first</small>
           </h3>
-          <h3>
+          <h3 onclick="sharedPost(${post.id})">
             <i class="fa-regular fa-share-from-square"></i>
             Share
           </h3>
@@ -196,8 +196,8 @@ function getCurrentUser () {
   return user
 }
 function logOut () {
-  localStorage.removeItem("token")
-  localStorage.removeItem("user")
+  localStorage.clear()
+  location.href = "index.html"
   setubUi()
 }
 function clickUserProfile (userId) {
@@ -207,6 +207,9 @@ function profileClicked () {
   let user = getCurrentUser()
   let userId = user.id
   window.location = `Profile.html?userid=${userId}`
+}
+function sharedPost (postId) {
+  window.location = `single-post.html?postid=${postId}`
 }
 //!======= CREATE AND EDIT POST =======
 let postImage = document.querySelector(".add-post .imageSelected")
@@ -357,17 +360,17 @@ function createCommentClicked(postId, bolem){
       if (bolem) {
         singlePostComments(response, false, postId)
       } else {
+        let comment = document.getElementById(`send-comment-${postId}`)
+        let commentbtn = document.getElementById(`clickComment-${postId}`)
+        comment.style.display ="none"
+        commentbtn.innerHTML = `
+        <i class="bi bi-chat-left-text comment"></i>
+        Comment
+        `
         getPosts()
       }
       mainAlert("success", "check",  "Good", "you have send a comment successfully")
       openAlert()
-      let comment = document.getElementById(`send-comment-${postId}`)
-      let commentbtn = document.getElementById(`clickComment-${postId}`)
-      comment.style.display ="none"
-      commentbtn.innerHTML = `
-      <i class="bi bi-chat-left-text comment"></i>
-      Comment
-      `
     }).catch((error) =>{
       console.log(error);
       mainAlert("error", "exclamation",  "warning", error)
@@ -385,7 +388,6 @@ function openDeletePost(postObject) {
   body.style.setProperty("overflow", "hidden")
 }
 function DeletePost () {
-
   let postId = document.getElementById("deletePostId").textContent
   let token = localStorage.getItem("token")
     axios.delete(`http://tarmeezAcademy.com/api/v1/posts/${postId}`, {
@@ -516,11 +518,9 @@ function clickRemoveFriends(userObject) {
   localStorage.setItem("friends", JSON.stringify(friendsPasket))
 }
 
-
 //!======= Single Post =======
 let seePost = document.querySelector(".see-post") 
-let inglePostHolder = document.querySelector(".single-post-holder") 
-
+let singlePostHolder = document.querySelector(".single-post-holder") 
 function openSinglePost(postId) {
   axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
   .then((response) => {
@@ -582,7 +582,7 @@ function openSinglePost(postId) {
         friendPost = ""
       }
 
-    inglePostHolder.innerHTML = 
+    singlePostHolder.innerHTML = 
     `
     <i onclick="closeSinglePost()" class="fa-solid fa-xmark seePostClose"></i>
     <div class="image imageTop"><img class="main-img" src="${post.image}" alt=""></div>
@@ -677,7 +677,7 @@ function openSinglePost(postId) {
 }
 function closeSinglePost () {
   seePost.classList.remove("active")
-  inglePostHolder.classList.remove("active")
+  singlePostHolder.classList.remove("active")
   body.style.setProperty("overflow", "auto")
 }
 function singlePostComments (response, bolem, postId) {
@@ -724,7 +724,7 @@ function singlePostComments (response, bolem, postId) {
   }
 
   seePost.classList.add("active")
-  inglePostHolder.classList.add("active")
+  singlePostHolder.classList.add("active")
   body.style.setProperty("overflow", "hidden")
   
   if (localStorage.getItem("token") == null) {
