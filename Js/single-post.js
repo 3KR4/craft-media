@@ -18,7 +18,6 @@ axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
         <i class="fa-regular fa-pen-to-square"></i> Edit Post</li>
         <li><i class="bi bi-bookmarks"></i> Save Post</li>
         <hr>
-        <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
         <li onclick="openDeletePost('${encodeURIComponent(JSON.stringify(post))}')" class="red-hover"><i class="bi bi-trash"></i> Delete Post</li>
       `
     } else {
@@ -27,7 +26,6 @@ axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
         <li class="addFriendBtn" onclick="clickAddFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-plus"></i> Add Frind</li>
         <li class="removeFriendBtn" onclick="clickRemoveFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-x-fill"></i> Remove Frind</li>
         <hr>
-        <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
         <li class="red-hover"><i class="bi bi-exclamation-circle"></i> Report Post</li>
       `
     }
@@ -68,7 +66,7 @@ axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
   document.querySelector(".single-post-holder").innerHTML = 
   `
   <a href="index.html"><i class="fa-solid fa-xmark seePostClose"></i></a>
-  <div class="image imageTop"><img class="main-img" src="${post.image}" alt=""></div>
+  <div class="image imageTop"><img class="main-img" src="${post.image == "[object Object]" ? "img/ifnoimg.png" : post.image}" alt=""></div>
   <div  class="post ${friendPost}" id="${post.id}">
     <div class="seePostTopHolder">
       <div class="holder">
@@ -97,7 +95,7 @@ axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
         </div>
         <hr>
       </div>
-      <div class="image imageMiddle"><img class="main-img" src="${post.image}" alt=""></div>
+      <div class="image imageMiddle"><img class="main-img" src="${post.image == "[object Object]" ? "img/ifnoimg.png" : post.image}" alt=""></div>
       <div class="otherUsersComment">
       
 
@@ -136,7 +134,7 @@ axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
           <i class="bi bi-chat-left-text comment"></i>
           Comment
         </h3>
-        <h3>
+        <h3 onclick="openSharePost(${post.id})">
           <i class="fa-regular fa-share-from-square"></i>
           Share
         </h3>

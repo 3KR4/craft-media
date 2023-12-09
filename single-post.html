@@ -26,7 +26,7 @@
   <div class="add-post model">
     <div class="add-post-holder open-model container">
       <span id="post-id-input" style="display: none;"></span>
-        <i onclick="closeAddPost()" class="bi bi-x post-close"></i>
+        <i onclick="closeAddPost()" class="fa-solid fa-xmark model-close"></i>
         <h2>Create Post</h2>
         <hr>
         <div class="user">
@@ -68,11 +68,30 @@
       </div>
     </div>
   </div>
+  <div class="share-div model">
+    <div class="share-holder open-model">
+      <h2>SHARE</h2>
+      <i onclick="closeSharePost()" class="fa-solid fa-xmark model-close"></i>
+      <hr>
+      <h5>Share this post to</h5>
+      <div class="social">
+        <a target="_blank" href="" class="Facebook"><i title="Facebook" class="fa-brands fa-facebook-f mainicons"></i></a>
+        <a target="_blank" href="" class="Twitter"><i title="Twitter" class="bi bi-twitter-x mainicons"></i></a>
+        <a target="_blank" href="" class="Whatsapp"><i title="Whatsapp" class="bi bi-whatsapp mainicons"></i></a>
+      </div>
+      <h5>or copy link</h5>
+      <div class="link-div">
+        <i class="bi bi-link-45deg"></i>
+        <input type="text" id="linkDiv" value="">
+        <button id="copy" type="submit" class="create-post-btn">Copy</button>
+        <input class="hiddenId" type="hidden">
+      </div>
+    </div>
+  </div>
   <div class="alert">
 
   </div>
 </div>
-
 
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="Js/Header-Footer.js"></script>

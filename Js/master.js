@@ -1,6 +1,6 @@
 let emojePasket = JSON.parse(localStorage.getItem("Reacts")) || []   
-let hidePasket = JSON.parse(localStorage.getItem("hide")) || []   
-let friendsPasket = JSON.parse(localStorage.getItem("friends")) || []   
+let friendsPasket = JSON.parse(localStorage.getItem("friends")) || []
+let hidePasket = JSON.parse(localStorage.getItem("hide")) || []      
 let currentPage = 1
 let lastPage = 1
 window.addEventListener("scroll", function() {
@@ -101,7 +101,7 @@ function getPosts (reload = true, page = 1) {
           <p>${post.body  === null ? "" : post.body}</p>
         </div>
       </div>
-      <img onclick="openSinglePost(${post.id})" class="main-img" src="${post.image}" alt="">
+      <img onclick="openSinglePost(${post.id})" class="main-img" src="${post.image == "[object Object]" ? "img/ifnoimg.png" : post.image}" alt="">
       <div class="holder">
         <div class="comment">
             <div class="reactsss">
@@ -135,7 +135,7 @@ function getPosts (reload = true, page = 1) {
             Comment
             <small>you need to login first</small>
           </h3>
-          <h3 onclick="sharedPost(${post.id})">
+          <h3 onclick="openSharePost(${post.id})">
             <i class="fa-regular fa-share-from-square"></i>
             Share
           </h3>
@@ -179,7 +179,6 @@ function setubUi () {
   }
 }
 setubUi()
-
 function getCurrentUser () {
   let user = null 
   const storageUser = localStorage.getItem("user")
@@ -207,9 +206,6 @@ function profileClicked () {
   let user = getCurrentUser()
   let userId = user.id
   window.location = `Profile.html?userid=${userId}`
-}
-function sharedPost (postId) {
-  window.location = `single-post.html?postid=${postId}`
 }
 //!======= CREATE AND EDIT POST =======
 let postImage = document.querySelector(".add-post .imageSelected")
@@ -414,7 +410,6 @@ function closeDeletePost() {
   body.style.setProperty("overflow", "hidden")
 }
 //!====== Emoje ======
-
 function clickLike(postId) {
   let likeBtn = document.getElementById(`reacts-btn-${postId}`)
   let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
@@ -517,6 +512,48 @@ function clickRemoveFriends(userObject) {
   friendsPasket = friendsPasket.filter((x) => x.id !== post.author.id)
   localStorage.setItem("friends", JSON.stringify(friendsPasket))
 }
+//!======= Share =======
+function openSharePost(postId) {
+  document.querySelector(".share-div").classList.add("active")
+  document.querySelector(".share-holder").classList.add("active")
+  body.style.setProperty("overflow", "hidden")
+  document.querySelector(".hiddenId").textContent = `${postId}`
+
+  let linkDiv = document.getElementById("linkDiv")
+  linkDiv.value = `${document.location.origin}/single-post.html?postid=${postId}`
+  let link = linkDiv.value
+
+  document.querySelector(".share-div .Facebook").href =`https://www.facebook.com/share.php?u=${link}`
+  document.querySelector(".share-div .Twitter").href  =`https://twitter.com/intent/tweet?text=${link}`
+  document.querySelector(".share-div .Whatsapp").href =`https://api.whatsapp.com/send?text=${link}`
+}
+
+function sharedPost (postId) {
+  window.location = `single-post.html?postid=${postId}`
+}
+let copyBtn = document.getElementById("copy")
+  copyBtn.addEventListener("click", ()=>{
+  
+  let hiddenId = document.querySelector(".hiddenId").textContent
+  
+  let linkDiv = document.getElementById("linkDiv")
+  linkDiv.value = `${document.location.origin}/single-post.html?postid=${hiddenId}`
+
+  linkDiv.select()
+  document.execCommand('copy');
+  
+  console.log(document.execCommand('copy'))
+
+})
+
+
+
+function closeSharePost() {
+  document.querySelector(".share-div").classList.remove("active")
+  document.querySelector(".share-holder").classList.remove("active")
+  body.style.setProperty("overflow", "auto")
+}
+
 
 //!======= Single Post =======
 let seePost = document.querySelector(".see-post") 
@@ -585,7 +622,7 @@ function openSinglePost(postId) {
     singlePostHolder.innerHTML = 
     `
     <i onclick="closeSinglePost()" class="fa-solid fa-xmark seePostClose"></i>
-    <div class="image imageTop"><img class="main-img" src="${post.image}" alt=""></div>
+    <div class="image imageTop"><img class="main-img" src="${post.image == "[object Object]" ? "img/ifnoimg.png" : post.image}" alt=""></div>
     <div  class="post ${friendPost}" id="${post.id}">
       <div class="seePostTopHolder">
         <div class="holder">
@@ -614,7 +651,7 @@ function openSinglePost(postId) {
           </div>
           <hr>
         </div>
-        <div class="image imageMiddle"><img class="main-img" src="${post.image}" alt=""></div>
+        <div class="image imageMiddle"><img class="main-img" src="${post.image == "[object Object]" ? "img/ifnoimg.png" : post.image}" alt=""></div>
         <div class="otherUsersComment">
         
 
@@ -653,7 +690,7 @@ function openSinglePost(postId) {
             <i class="bi bi-chat-left-text comment"></i>
             Comment
           </h3>
-          <h3>
+          <h3 onclick="openSharePost(${post.id})">
             <i class="fa-regular fa-share-from-square"></i>
             Share
           </h3>
@@ -732,3 +769,4 @@ function singlePostComments (response, bolem, postId) {
     sendCommentIcon.classList.add("notLog")
   }
 }
+

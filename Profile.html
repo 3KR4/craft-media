@@ -28,7 +28,7 @@
   <div class="add-post model">
     <div class="add-post-holder open-model container">
       <span id="post-id-input" style="display: none;"></span>
-        <i onclick="closeAddPost()" class="bi bi-x post-close"></i>
+        <i onclick="closeAddPost()" class="fa-solid fa-xmark model-close"></i>
         <h2>Create Post</h2>
         <hr>
         <div class="user">
@@ -38,7 +38,7 @@
         <input id="postTitleInput" required type="text" placeholder="Enter the title of the post...">
         <textarea required id="postBodyInput" name="" id="" rows="2" placeholder="what's on your mind.?"></textarea>
         <div class="add-post-img">
-          <img class="imageSelected" src="img/f2QSQriSxD90EM7.jpg"></img>
+          <img class="imageSelected" src=""></img>
           <div class="content">
             <i class="bi bi-download"></i>
             <h5>Click Here to upload an image</h5>
@@ -59,7 +59,7 @@
       <input type="hidden" id="deletePostId">
       <div class="text">
         <h3>Are You Sure You Want To Delete Your Post</h3>
-        <i onclick="closeDeletePost()" class="fa-solid fa-xmark deletePostClose"></i>
+        <i onclick="closeDeletePost()" class="fa-solid fa-xmark model-close"></i>
       </div>
       <hr>
       <div class="ptnHolder">
@@ -68,10 +68,29 @@
       </div>
     </div>
   </div>
+  <div class="share-div model">
+    <div class="share-holder open-model">
+      <h2>SHARE</h2>
+      <i onclick="closeSharePost()" class="fa-solid fa-xmark model-close"></i>
+      <hr>
+      <h5>Share this post to</h5>
+      <div class="social">
+        <a target="_blank" href="" class="Facebook"><i title="Facebook" class="fa-brands fa-facebook-f mainicons"></i></a>
+        <a target="_blank" href="" class="Twitter"><i title="Twitter" class="bi bi-twitter-x mainicons"></i></a>
+        <a target="_blank" href="" class="Whatsapp"><i title="Whatsapp" class="bi bi-whatsapp mainicons"></i></a>
+      </div>
+      <h5>or copy link</h5>
+      <div class="link-div">
+        <i class="bi bi-link-45deg"></i>
+        <input type="text" id="linkDiv" value="">
+        <button id="copy" type="submit" class="create-post-btn">Copy</button>
+        <input class="hiddenId" type="hidden">
+      </div>
+    </div>
+  </div>
   <div class="alert">
 
   </div>
-
   <div class="main-ProfilePage-holder container">
     <div class="image-cover">
       <img src="img/profile background.jpg" alt="">

@@ -425,18 +425,7 @@ body.dark .post .input textarea {
   border-radius: 20px;
   overflow: hidden;
 } 
-.add-post .post-close {
-  color: var(--text-color);
-  position: absolute;
-  right: 29px;
-  top: 17px;
-  font-size: 32px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.add-post .post-close:hover {
-  color: #d93025;
-}
+
 .add-post-holder hr {
   margin-top: -13px;
 }
@@ -578,7 +567,7 @@ body.dark .post .input textarea {
   transition: 0.3s;
 }
 .see-post .seePostClose:hover {
-  background: var(--main-color);
+  background: #ff2c2c;
 }
 .single-post-holder {
   display: flex;
@@ -829,8 +818,113 @@ body.dark .post .input textarea {
   color: white !important;
   box-shadow: inset 0 -100px 0 0 #de2537;
 }
-
-
+.share-div {
+  
+}
+.share-div .share-holder  {
+  gap: 0;
+}
+.share-div h2 {
+  text-align: center;
+}
+.share-div hr {
+  margin: 13px 0 18px;
+}
+.share-div h5 {
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+}
+.share-div .social {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+.share-div .social i {
+  font-size: 25px;
+  width: 45px;
+  height: 45px;
+  transition: 0.2s;
+  background: transparent;
+}
+.share-div .social i.fa-facebook-f {
+  color: #1877f2;
+}
+.share-div .social i.bi-twitter-x {
+  font-size: 23px;
+}
+.share-div .social i.bi-whatsapp {
+  color: #25d366;
+}
+.share-div .social i.fa-facebook-f:hover {
+  color: white;
+  background: #1877f2;
+}
+.share-div .social i.bi-twitter-x:hover {
+  background: black;
+  color: white !important;
+}
+.share-div .social i.bi-whatsapp:hover {
+  color: white;
+  background: #25d366;
+}
+.share-div .link-div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--paragraph);
+  padding: 5px 5px;
+  border-radius: 5px;
+}
+.share-div .link-div i {
+  font-size: 25px;
+  color: var(--text-color);
+  transform: translate(3px, 3px);
+}
+.share-div .link-div input {
+  font-weight: 300;
+  width: 78%;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  transform: translateY(1px);
+}
+.share-div .link-div input:focus {
+  border: none;
+  outline: none;
+}
+.share-div .link-div button {
+  width: 63px;
+  font-weight: 500;
+  padding: 4px 8px;
+  font-size: 15px;
+  border-radius: 8px;
+  background: var(--main-color);
+  color: white;
+  font-family: poppins;
+}
+.model-close {
+  color: var(--text-color);
+  position: absolute;
+  right: 26px;
+  top: 25px;
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.model-close:hover {
+  color: white;
+  background: #ff2c2c;
+}
 
 .singlePostPage {
   width: 100%;
@@ -849,8 +943,7 @@ body.dark .post .input textarea {
 }
 .singlePostPage .single-post-holder .main-img {
   width: 100%;
-    max-height: 78vh;
-    object-fit: fill;
+  max-height: 88vh;
 }
 .singlePostPage
 
@@ -1245,6 +1338,9 @@ p.error-text {
   .delete-post-holder hr {
     margin: 10px 0;
   }
+  .singlePostPage .single-post-holder .post {
+    max-width: 100%;
+  }
 }
 
 
@@ -1304,6 +1400,9 @@ p.error-text {
   }
   .see-post .info .user {
     gap: 5px;
+  }
+  .see-post .post .noComment {
+    font-size: 12px; 
   }
 }
 @media(max-width:375px) {

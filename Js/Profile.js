@@ -205,7 +205,7 @@ function getUserPosts () {
           Comment
           <small>you need to login first</small>
         </h3>
-        <h3>
+        <h3 onclick="openSharePost(${post.id})">
           <i class="fa-regular fa-share-from-square"></i>
           Share
         </h3>
