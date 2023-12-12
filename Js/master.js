@@ -1,3 +1,4 @@
+let userPasket = JSON.parse(localStorage.getItem("user")) || []   
 let emojePasket = JSON.parse(localStorage.getItem("Reacts")) || []   
 let friendsPasket = JSON.parse(localStorage.getItem("friends")) || []
 let hidePasket = JSON.parse(localStorage.getItem("hide")) || []      
@@ -108,7 +109,7 @@ function getPosts (reload = true, page = 1) {
               <img src="img/emoji img/like.svg" alt="">
               <img src="img/emoji img/love.svg" alt="">
               <img src="img/emoji img/haha.svg" alt="">
-              <h6>${post.comments_count + 3}</h6>
+              <h6>${post.comments_count == 0 ? 0 : post.comments_count + 2}</h6>
             </div>
             <h5 onclick="openSinglePost(${post.id})"><span>${post.comments_count}</span> comments</h5>
         </div>
@@ -246,9 +247,9 @@ window.addEventListener("click" , (event) => {
     }
   }
 }) 
+let postImageInputs = document.getElementById("postImageInput")
+let userImageSelected = document.querySelector(".add-post .imageSelected")
 function checkPostImages() {
-  let postImageInputs = document.getElementById("postImageInput")
-  let userImageSelected = document.querySelector(".add-post .imageSelected")
   // img change
   postImageInputs.addEventListener("change", function() { 
   userImageSelected.classList.add("active")
@@ -259,19 +260,21 @@ checkPostImages()
 function CreateAndEditPost (bolem) { 
   let postTitleInput = document.getElementById("postTitleInput").value
   let postBodyInput = document.getElementById("postBodyInput").value
-  let postImageInput = document.getElementById("postImageInput").files[0]
+  let postImageInput = postImageInputs.files[0]
   let token = localStorage.getItem("token")
 
   let formData = new FormData()
   formData.append("title", postTitleInput)
   formData.append("body", postBodyInput)
-  formData.append("image", postImageInput)
+
+  console.log(postImageInput);
 
   headerss = {
     "Content-Type": "multipart/form-data",
     "authorization": `Bearer ${token}`
   }
   if(bolem) {
+    formData.append("image", postImageInput)
     axios.post("http://tarmeezAcademy.com/api/v1/posts", formData, {
       headers: headerss
     })
@@ -286,6 +289,8 @@ function CreateAndEditPost (bolem) {
       openAlert()
     }) 
   } else {
+    userImageSelected.src = URL.createObjectURL(postImageInputs.files[0]);
+    formData.append("image", postImageInput)
     formData.append("_method", "put")
     let postId = document.getElementById("post-id-input").textContent
     axios.post(`http://tarmeezAcademy.com/api/v1/posts/${postId}`, formData, {
@@ -394,15 +399,11 @@ function DeletePost () {
     })
     .then((response) => {
       closeDeletePost()
+      getPosts()
       mainAlert("success", "check", "Good", "your post has been deleted successfully")
       openAlert()
-      getPosts()
       closeSinglePost()
     })
-    .catch((error) => {
-      mainAlert("error", "exclamation", "warning", error.response.data.message)
-      openAlert()
-    }) 
 }
 function closeDeletePost() {
   document.querySelector(".delete-post").classList.remove("active")
@@ -447,7 +448,7 @@ function hideReactsHolder (postId) {
 function clickEmoje(postId, type, color) {
   let likeBtnHolder = document.getElementById(`reacts-btn-holder-${postId}`)
   likeBtnHolder.classList.add("active")
-  document.getElementById(`reacts-btn-${postId}`).innerHTML = `
+  document.getElementById(`reacts-btn-${postId}`).innerHTML =`
     <img src="img/emoji img/${type}.svg"></img>
     <h4 style="color: ${color}; font-size: 16px;">${type}</h4>
   `
@@ -527,7 +528,6 @@ function openSharePost(postId) {
   document.querySelector(".share-div .Twitter").href  =`https://twitter.com/intent/tweet?text=${link}`
   document.querySelector(".share-div .Whatsapp").href =`https://api.whatsapp.com/send?text=${link}`
 }
-
 function sharedPost (postId) {
   window.location = `single-post.html?postid=${postId}`
 }
@@ -545,16 +545,11 @@ let copyBtn = document.getElementById("copy")
   console.log(document.execCommand('copy'))
 
 })
-
-
-
 function closeSharePost() {
   document.querySelector(".share-div").classList.remove("active")
   document.querySelector(".share-holder").classList.remove("active")
   body.style.setProperty("overflow", "auto")
 }
-
-
 //!======= Single Post =======
 let seePost = document.querySelector(".see-post") 
 let singlePostHolder = document.querySelector(".single-post-holder") 
@@ -769,4 +764,3 @@ function singlePostComments (response, bolem, postId) {
     sendCommentIcon.classList.add("notLog")
   }
 }
-

@@ -19,7 +19,7 @@
   padding: 20px 0 15px;
   width: 100%;
   border-radius: 10px;
-  background: #e6e6e6;
+  background: var(--input-color);
   box-shadow: none;
 }
 .post.hidePost {
@@ -39,9 +39,6 @@
 }
 .post.hidePost {
   display: none;
-}
-body.dark .post {
-  background: var(--input-color);
 }
 .post .holder {
   padding: 0 20px;
@@ -1260,6 +1257,29 @@ p.error-text {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:1200px) {
+  .main-ProfilePage-holder .bigBigHolder.nofrind .right {
+    width: 70% !important;
+  }
+}
+
+
+
+
+
 @media(min-width:993px) {
   .imageMiddle {
     display: none;
@@ -1340,6 +1360,9 @@ p.error-text {
   }
   .singlePostPage .single-post-holder .post {
     max-width: 100%;
+  }
+  .main-ProfilePage-holder .bigBigHolder.nofrind .right {
+    width: 100% !important;
   }
 }
 

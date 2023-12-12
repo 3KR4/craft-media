@@ -3,8 +3,7 @@ const form = document.querySelector("form"),
   nameInput = nameField.querySelector(".name"),
   passField = form.querySelector(".create-password"),
   passInput = passField.querySelector(".password");
-
-
+  
 
 // user name Validtion
 function checkName() {
@@ -13,7 +12,6 @@ function checkName() {
   }
   nameField.classList.remove("invalid"); //removing invalid class if email value matched with emaiPattern
 }
-
 // Password Validation
 function createPass() {
   const passPattern =
@@ -24,8 +22,6 @@ function createPass() {
   }
   passField.classList.remove("invalid"); //removing invalid class if password input value matched with passPattern
 }
-
-
 const eye = document.querySelectorAll(".show-hide")
 eye.forEach((eye) => {
   eye.addEventListener("click" , () => {
@@ -39,8 +35,6 @@ eye.forEach((eye) => {
     };
   });
 });
-
-
 // Calling Funtion on Form Sumbit
 form.addEventListener("submit", (e) => {
   e.preventDefault(); //preventing form submitting
@@ -66,11 +60,14 @@ form.addEventListener("submit", (e) => {
     .then((response) => {
       localStorage.setItem("token", response.data.token)
       localStorage.setItem("user", JSON.stringify(response.data.user))
+      let userPasket = JSON.parse(localStorage.getItem("user"))
       mainAlert("success", "check",  "Good", "You've logged in your account successfully")
       openAlert()
+      userPasket["cover"] = ""
+      localStorage.setItem("user", JSON.stringify(userPasket))
       location.href = "index.html"
     }).catch((error) => {
-        mainAlert("error", "exclamation",  "warning", error.response.data.message)
+        mainAlert("error", "exclamation",  "warning", error)
         openAlert()
       }) 
   }

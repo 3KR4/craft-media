@@ -122,8 +122,11 @@ form.addEventListener("submit", (e) => {
     .then((response) => {
       localStorage.setItem("token", response.data.token)
       localStorage.setItem("user", JSON.stringify(response.data.user))
+      let userPasket = JSON.parse(localStorage.getItem("user"))
       mainAlert("success", "check",  "Good", "You've create a new account successfully")
       openAlert()
+      userPasket["cover"] = ""
+      localStorage.setItem("user", JSON.stringify(userPasket))
       location.href = "index.html"
     }).catch((error) => {
         mainAlert("error", "exclamation",  "warning", error.response.data.message)

@@ -584,9 +584,10 @@ i.mainicons {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.3s;
 }
 .theme-holder .top i:hover {
-  background: var(--hover-backGround);
+  background: #ff2c2c;
 }
 .theme-holder .holder {
   display: flex;
@@ -855,6 +856,7 @@ i.open.hide {
 }
 .header .user-menu li.LogOut:hover {
   background: #ff2c2c;
+  color: white;
 }
 .header .user-menu li.LogOut:hover i {
   background-color: transparent;
@@ -863,6 +865,7 @@ i.open.hide {
 .header .user-menu li i.fa-angle-right {
   width: 15px;
   background: none;
+  color: var(--text-color);
 }
 
 
@@ -971,15 +974,24 @@ i.open.hide {
   }
   .header .logo i.close {
     position: absolute;
-    top: -9px;
+    top: -1px;
     opacity: 0;
     visibility: hidden;
     font-size: 33px !important;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  .header .logo i.close:hover {
+    background: #ff2c2c;
   }
   .header .logo .search-ico.hide + i.close {
     opacity: 1;
     visibility: visible;
-  
   }
   .header .logo .search-ico.hide {
     opacity: 0;

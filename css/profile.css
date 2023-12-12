@@ -1,17 +1,39 @@
-.main-ProfilePage-holder {
-  
-}
 .main-ProfilePage-holder .image-cover {
   position: relative;
+  margin-top: 65px;
 }
 .main-ProfilePage-holder .image-cover img {
   width: 100%;
+  height: 440px;
   border-bottom-right-radius: 45px;
   border-bottom-left-radius: 45px;
+  object-fit: cover;
+  pointer-events: none;
+}
+.main-ProfilePage-holder .image-cover button {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  background: var(--input-color);
+  padding: 9px 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 2;
+  transition: 0.3s;
+  overflow: hidden;
 }
 .main-ProfilePage-holder .image-cover button:hover {
   background: var(--main-color2);
   color: white;
+}
+.image-cover button #coverimginput {
+  position: absolute;
+  top: 0;
+  left: -48px;
+  scale: 2;
+  opacity: 0;
+  cursor: pointer;
 }
 .main-ProfilePage-holder .image-cover button:hover h4 {
   transition: 0.3s;
@@ -194,8 +216,8 @@
   position: absolute;
   color: white;
   font-size: 22px;
-  left: 4px;
-  top: 4px;
+  left: 7px;
+  top: 7px;
   background: red;
   width: 20px;
   height: 20px;
@@ -615,4 +637,3 @@
     width: 28% !important;
   }
 }
-

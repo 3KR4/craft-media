@@ -235,12 +235,6 @@ function closeClickDisplay () {
 
 if (window.localStorage.getItem("theme")) {
   document.querySelector(':root').style.setProperty('--main-color', window.localStorage.getItem("theme"));
-
-  if (window.localStorage.getItem("theme") === "#2a84ff") {
-    document.querySelector(':root').style.setProperty('--hover-color',  window.localStorage.getItem("hover")); 
-  } else if (window.localStorage.getItem("theme") !== "#2a84ff") {
-    document.querySelector(':root').style.setProperty('--hover-color', "#0167f3");
-  }
 }
 themeButtons.forEach((btn) => {
   btn.addEventListener('click', (e) => {
@@ -250,14 +244,8 @@ themeButtons.forEach((btn) => {
   })
   e.currentTarget.classList.add("active")
   window.localStorage.setItem("theme", e.currentTarget.dataset.color)
-  window.localStorage.setItem("hover", "#0e3f81")
   inputColor.value = localStorage.getItem("theme")
   document.querySelector(':root').style.setProperty('--main-color', e.currentTarget.dataset.color);
-      if (window.localStorage.getItem("theme") === "#2a84ff") {
-        document.querySelector(':root').style.setProperty('--hover-color',  window.localStorage.getItem("hover")); 
-      } else if (window.localStorage.getItem("theme") !== "#2a84ff") {
-        document.querySelector(':root').style.setProperty('--hover-color', "#0167f3");
-      }
   });
 });
 inputColor.oninput = function () {

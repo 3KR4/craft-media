@@ -62,17 +62,45 @@ function userProfileInfo () {
   axios.get(`http://tarmeezAcademy.com/api/v1/users/${id}`)
     .then((response) => {
       const user = response.data.data
+      coverImg.src = userPasket.cover
+      
       document.getElementById("userImage").src = user.profile_image == "[object Object]" ? "img/aulter.png" : user.profile_image
       document.getElementById("userName").innerHTML = user.name
       document.getElementById("userPostsCount").innerHTML = user.posts_count
       document.getElementById("userTweet").innerHTML = user.comments_count
-      let userFriendsCount = document.querySelectorAll(".userFriendsCount")
-      for (let frindsNumper of userFriendsCount) {
-        frindsNumper.innerHTML = friendsPasket.length
-      }
+      friendsLength()
     })
 }
 userProfileInfo()
+
+if (userPasket.cover == "") {
+  document.getElementById("typeOfCoverImg").innerHTML = "Add Cover Photo"
+} else {
+  document.getElementById("typeOfCoverImg").innerHTML = "Edit Cover Photo"
+}
+
+let coverInput = document.getElementById("coverimginput")
+let coverImg = document.querySelector(".image-cover img")
+
+coverInput.addEventListener("change", function() { 
+  coverImg.src = URL.createObjectURL(coverInput.files[0]);
+
+  if (userPasket.cover === undefined) {
+    userPasket["cover"] = coverImg.src
+  } else {
+    userPasket["cover"] = coverImg.src
+  }
+  localStorage.setItem("user", JSON.stringify(userPasket))
+  console.log(coverImg.src);
+})
+
+
+function friendsLength () {
+  let userFriendsCount = document.querySelectorAll(".userFriendsCount")
+  for (let frindsNumper of userFriendsCount) {
+    frindsNumper.innerHTML = friendsPasket.length
+  }
+}
 let userPosts = document.querySelector(".userPosts")
 function listOrGrid () {
   let listGrid =  document.querySelectorAll(".list-grid button")
@@ -107,7 +135,6 @@ if (localStorage.getItem("post-style") === "list") {
 }
 listOrGrid ()
 let friendsHolder = document.querySelector(".bigBigHolder .left .friends")
-
 
 function getUserPosts () {
   let id = getCurrentUserId()
@@ -229,17 +256,13 @@ function getUserPosts () {
 }
 getUserPosts()
 
-
 let leftHolder = document.querySelector(".bigBigHolder .left")
-
 window.addEventListener("scroll", function () {
   leftHolder.classList.toggle("start", window.scrollY > 665);
 },);
 window.addEventListener("scroll", function () {
   leftHolder.classList.toggle("stop", window.scrollY > document.body.scrollHeight - 1000);
 });
-
-
 function addFrindIntopProfile () {
   let id = getCurrentUserId()
   axios.get(`http://tarmeezAcademy.com/api/v1/users/${id}`)
@@ -265,12 +288,10 @@ function removeFrindIntopProfile () {
   localStorage.setItem("friends", JSON.stringify(friendsPasket))
   document.querySelector(".main-ProfilePage-holder .user-info").classList.remove("friend")
 }
-
-
-
 function  clickRemoveFriendsinProfile (userFriend) {
   let post = JSON.parse(decodeURIComponent(userFriend))
   friendsPasket = friendsPasket.filter((x) => x.id !== post.id)
   localStorage.setItem("friends", JSON.stringify(friendsPasket))
   getUserFriends()
+  friendsLength()
 }
