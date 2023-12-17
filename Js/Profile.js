@@ -12,7 +12,7 @@ let getUserFriends = () => {
     return (friendsHolder.innerHTML = friendsPasket.map((x) => {
         return `
         <div  class="friend">
-          <i onclick="clickRemoveFriendsinProfile('${encodeURIComponent(JSON.stringify(x))}')" class="bi bi-x close"></i>
+          <i title="Remove Friend" onclick="clickRemoveFriendsinProfile('${encodeURIComponent(JSON.stringify(x))}')" class="bi bi-x close"></i>
           <img onclick="clickUserProfile(${x.id})" src="${x.img == "[object Object]" ? "img/aulter.png" : x.img}" alt="">
           <h5 onclick="clickUserProfile(${x.id})">${x.name}</h5>
         </div>
@@ -25,46 +25,53 @@ let getUserFriends = () => {
   }
 }
 let profileHolder = document.querySelector(".main-ProfilePage-holder .bigBigHolder")
-function isMyProfile () {
-  let id = getCurrentUserId()
-  let myId = getCurrentUser()
-
-  if (Number(id) != myId.id) {
-    document.querySelector(".profile-buttons.my").style.display = "none"
-    document.querySelector(".profile-buttons.notMY").style.display = "flex"
-
-
-    profileHolder.classList.add("nofrind")   
-    document.querySelector(".bigBigHolder .left").innerHTML = ""
-    document.querySelector(".profile-buttons.my").style.display = "none"
-
-    let isFriend = friendsPasket.find((x) => x.id == id)
-    if (isFriend) {
-      document.querySelector(".main-ProfilePage-holder .user-info").classList.add("friend")
-    } else {
-      document.querySelector(".main-ProfilePage-holder .user-info").classList.remove("friend")
-    }
-
-
-  } else {
-    document.querySelector(".profile-buttons.my").style.display = "flex"
-    document.querySelector(".profile-buttons.notMY").style.display = "none"
-
-    profileHolder.classList.remove("nofrind")   
-    document.querySelector(".profile-buttons").style.display = "flex"
-    getUserFriends() 
-  }
-}
-isMyProfile()
 
 function userProfileInfo () {
   let id = getCurrentUserId()
   axios.get(`http://tarmeezAcademy.com/api/v1/users/${id}`)
     .then((response) => {
       const user = response.data.data
-      coverImg.src = userPasket.cover
       
-      document.getElementById("userImage").src = user.profile_image == "[object Object]" ? "img/aulter.png" : user.profile_image
+      let myId = getCurrentUser()
+      if (Number(id) != myId.id) {
+        document.querySelector(".profile-buttons.my").style.display = "none"
+        document.querySelector(".profile-buttons.notMY").style.display = "flex"
+        document.querySelector(".main-ProfilePage-holder .holders").style.display = "none"
+        profileHolder.classList.add("nofrind")   
+        document.querySelector(".bigBigHolder .left").innerHTML = ""
+        document.querySelector(".profile-buttons.my").style.display = "none"
+        document.querySelector(".image-cover button").style.display = "none"
+        document.querySelector("nav li.li").style.display = "none"
+
+        document.getElementById("userImage").src = user.profile_image == "[object Object]" ? "img/aulter.png" : user.profile_image
+    
+        let isFriend = friendsPasket.find((x) => x.id == id)
+        if (isFriend) {
+          document.querySelector(".main-ProfilePage-holder .user-info").classList.add("friend")
+        } else {
+          document.querySelector(".main-ProfilePage-holder .user-info").classList.remove("friend")
+        }
+        
+      } else {
+        const storageUser = localStorage.getItem("user")
+        userLocal = JSON.parse(storageUser)
+        document.getElementById("userImage").src = userLocal.profile_image == "[object Object]" ? "img/aulter.png" : userLocal.profile_image
+        document.querySelector(".profile-buttons.my").style.display = "flex"
+        document.querySelector(".profile-buttons.notMY").style.display = "none"
+    
+        profileHolder.classList.remove("nofrind")   
+        document.querySelector(".profile-buttons").style.display = "flex"
+        getUserFriends() 
+        document.querySelector(".image-cover img").src = userPasket.cover
+    
+        if (userPasket.cover == "") {
+          document.getElementById("typeOfCoverImg").innerHTML = "Add Cover Photo"
+        } else {
+          document.getElementById("typeOfCoverImg").innerHTML = "Edit Cover Photo"
+        }
+        document.querySelector(".main-ProfilePage-holder .holders").style.display = "flex"
+      }
+
       document.getElementById("userName").innerHTML = user.name
       document.getElementById("userPostsCount").innerHTML = user.posts_count
       document.getElementById("userTweet").innerHTML = user.comments_count
@@ -73,15 +80,8 @@ function userProfileInfo () {
 }
 userProfileInfo()
 
-if (userPasket.cover == "") {
-  document.getElementById("typeOfCoverImg").innerHTML = "Add Cover Photo"
-} else {
-  document.getElementById("typeOfCoverImg").innerHTML = "Edit Cover Photo"
-}
-
 let coverInput = document.getElementById("coverimginput")
 let coverImg = document.querySelector(".image-cover img")
-
 coverInput.addEventListener("change", function() { 
   coverImg.src = URL.createObjectURL(coverInput.files[0]);
 
@@ -91,9 +91,16 @@ coverInput.addEventListener("change", function() {
     userPasket["cover"] = coverImg.src
   }
   localStorage.setItem("user", JSON.stringify(userPasket))
-  console.log(coverImg.src);
 })
 
+let userImageInput = document.querySelector(".user-image-input")
+let userImg = document.querySelector("#userImage")
+userImageInput.addEventListener("change", function() { 
+  userImg.src = URL.createObjectURL(userImageInput.files[0]);
+    userPasket["profile_image"] = userImg.src
+  localStorage.setItem("user", JSON.stringify(userPasket))
+  location.reload()
+})
 
 function friendsLength () {
   let userFriendsCount = document.querySelectorAll(".userFriendsCount")
@@ -101,7 +108,12 @@ function friendsLength () {
     frindsNumper.innerHTML = friendsPasket.length
   }
 }
+function blockLength () {
+  let blockNum = document.querySelector(".black-List .top span")
+  blockNum.innerHTML = blockPasket.length
+}
 let userPosts = document.querySelector(".userPosts")
+let bigBigHolderRight = document.querySelector(".bigBigHolder")
 function listOrGrid () {
   let listGrid =  document.querySelectorAll(".list-grid button")
 
@@ -117,9 +129,15 @@ function removeClicked() {
   if(listGrid[1].classList.contains("active")) {
     localStorage.setItem("post-style", "list")
     userPosts.classList.remove("active")
+    if (bigBigHolderRight.classList.contains("nofrind")) { 
+      document.querySelector(".bigBigHolder.nofrind .right").style.width = "65%"
+    }
   } else {
     localStorage.setItem("post-style", "grid")
     userPosts.classList.add("active")
+    if (bigBigHolderRight.classList.contains("nofrind")) { 
+      document.querySelector(".bigBigHolder.nofrind .right").style.width = "82%"
+    }
   }
 }
 
@@ -134,9 +152,18 @@ if (localStorage.getItem("post-style") === "list") {
 }
 }
 listOrGrid ()
+
 let friendsHolder = document.querySelector(".bigBigHolder .left .friends")
+if (bigBigHolderRight.classList.contains("nofrind")) {
+  if (userPosts.classList.contains("active")) {
+    document.querySelector(".bigBigHolder.nofrind .right").style.width = "82%"
+  } else {
+    document.querySelector(".bigBigHolder.nofrind .right").style.width = "60%"
+  }
+}
 
 function getUserPosts () {
+  userPosts.innerHTML = ""
   let id = getCurrentUserId()
   axios.get(`http://tarmeezAcademy.com/api/v1/users/${id}/posts`)
 .then((response) => {
@@ -149,25 +176,60 @@ function getUserPosts () {
     if(isMyPost) {
       postSettingMenue = `
         <li onclick="openAddEditPost(false, '${encodeURIComponent(JSON.stringify(post))}')">
-        <i class="fa-regular fa-pen-to-square"></i> Edit Post
-        </li>
-        <li><i class="bi bi-bookmarks"></i> Save Post</li>
+        <i class="fa-regular fa-pen-to-square"></i> Edit Post</li>
+        <li class="savePost" onclick="clickSavePost('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-bookmarks-fill"></i> Save Post</li>
+        <li class="unsavePost" onclick="clickUnSavePost(${post.id})"><i class="bi bi-bookmarks"></i> unSave Post</li>
         <hr>
-        <li class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
+        <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
         <li onclick="openDeletePost('${encodeURIComponent(JSON.stringify(post))}')" class="red-hover"><i class="bi bi-trash"></i> Delete Post</li>
       `
     } else {
       postSettingMenue = `
-        <li><i class="bi bi-bookmarks"></i> Save Post</li>
-        <li><i class="bi bi-person-plus"></i> Add Frind</li>
+      <li class="savePost" onclick="clickSavePost('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-bookmarks-fill"></i> Save Post</li>
+        <li class="unsavePost" onclick="clickUnSavePost(${post.id})"><i class="bi bi-bookmarks"></i> unSave Post</li>
+        <li class="addFriendBtn" onclick="clickAddFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-plus"></i> Add Frind</li>
+        <li class="removeFriendBtn" onclick="clickRemoveFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-x"></i> Remove Frind</li>
         <hr>
-        <li class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
-        <li class="red-hover"><i class="bi bi-exclamation-circle"></i> Report Post</li>
+        <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
+        <li class="red-hover blockUser" onclick="clickBlock('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-exclamation-circle"></i> Block User</li>
+        <li class="red-hover unblockUser" onclick="removeBlock('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-exclamation-circle"></i>unBlock</li>
       `
     }
-
+    let isReacted = emojePasket.find((x) => x.id === post.id)
+    if (isReacted) {
+      if (isReacted.emoje == "Like") {
+        postEmoje =`
+          <i class="fa-solid fa-thumbs-up"></i>
+          <h4 font-size: 16px;">${isReacted.emoje}</h4>
+      `
+      } else {
+          postEmoje =`
+          <img src="img/emoji img/${isReacted.emoje}.svg"></img>
+          <h4 style="color: ${isReacted.color}; font-size: 16px;">${isReacted.emoje}</h4>
+        `
+      }
+      isliked = "active"
+    } else {
+      postEmoje =`
+        <i class="fa-regular fa-thumbs-up"></i>
+        Like
+      `
+      isliked = ""
+    }
+    let isHide = hidePasket.find((x) => x.id === post.id)
+    if (isHide) {
+      hidePost = "hidePost"
+    } else {
+      hidePost = ""
+    }
+    let isFavorit = favoritBasket.find((x) => x.id === post.id)
+    if (isFavorit) {
+      favoritPost = "favorit"
+    } else {
+      favoritPost = ""
+    }
     let content = `
-    <div class="post" id="${post.id}">
+    <div class="post ${favoritPost} ${hidePost}" id="${post.id}">
     <div class="holder">
       <div class="info">
         <div class="user">
@@ -210,20 +272,19 @@ function getUserPosts () {
       <hr>
       <div class="other">
 
-        <div id="reacts-holder-${post.id}" class="reacts-holder">
-          <img onclick="clickLikeEmoje(${post.id})" src="img/emoji img/like.svg"></img>
-          <img onclick="clickEmoje(${post.id}, 'Love', '#e65065')" src="img/emoji img/love.svg"></img>
-          <img onclick="clickEmoje(${post.id}, 'Care')" src="img/emoji img/care.svg"></img>
-          <img onclick="clickEmoje(${post.id}, 'Haha')" src="img/emoji img/haha.svg"></img>
-          <img onclick="clickEmoje(${post.id}, 'wow')" src="img/emoji img/wow.svg"></img>
-          <img onclick="clickEmoje(${post.id}, 'Sad')" src="img/emoji img/sad.svg"></img>
-          <img onclick="clickEmoje(${post.id}, 'Angry', '#cb732b')" src="img/emoji img/angry.svg"></img>
-        </div>
+      <div id="reacts-holder-${post.id}" class="reacts-holder">
+      <img onclick="clickLikeEmoje(${post.id})" src="img/emoji img/like.svg"></img>
+      <img onclick="clickEmoje(${post.id}, 'Love', '#e65065')" src="img/emoji img/love.svg"></img>
+      <img onclick="clickEmoje(${post.id}, 'Care', '#e0a93b')" src="img/emoji img/care.svg"></img>
+      <img onclick="clickEmoje(${post.id}, 'Haha', '#e0a93b')" src="img/emoji img/haha.svg"></img>
+      <img onclick="clickEmoje(${post.id}, 'wow', '#e0a93b')" src="img/emoji img/wow.svg"></img>
+      <img onclick="clickEmoje(${post.id}, 'Sad', '#e0a93b')" src="img/emoji img/sad.svg"></img>
+      <img onclick="clickEmoje(${post.id}, 'Angry', '#cb732b')" src="img/emoji img/angry.svg"></img>
+    </div>
 
           <h3 onclick="clickLike(${post.id})" onmouseenter="showReactsHolder(${post.id})" onmouseleave="hideReactsHolder(${post.id})" class="reacts-btn" id="reacts-btn-holder-${post.id}">
               <div id="reacts-btn-${post.id}">
-                <i class="fa-regular fa-thumbs-up"></i>
-                Like
+                ${postEmoje}
               </div>
 
           </h3>
@@ -242,7 +303,7 @@ function getUserPosts () {
         <img src="img/icon.jpeg" alt="">
         <div class="input">
         <textarea name="" id="comment-input-${post.id}" placeholder="Type a Comment"></textarea>
-          <i onclick="createCommentClicked(${post.id})" class="bi bi-send"></i>
+          <i onclick="createCommentClicked(${post.id}, false,'profile')" class="bi bi-send"></i>
         </div>
       </div>
     </div>
@@ -250,8 +311,6 @@ function getUserPosts () {
     `
     userPosts.innerHTML += content
   }
-}).catch((error) => {
-
 })
 }
 getUserPosts()
@@ -277,9 +336,7 @@ function addFrindIntopProfile () {
         })
       }
       localStorage.setItem("friends", JSON.stringify(friendsPasket)) 
-      
       document.querySelector(".main-ProfilePage-holder .user-info").classList.add("friend")
-      
   })
 }
 function removeFrindIntopProfile () {
@@ -294,4 +351,74 @@ function  clickRemoveFriendsinProfile (userFriend) {
   localStorage.setItem("friends", JSON.stringify(friendsPasket))
   getUserFriends()
   friendsLength()
+}
+
+let choosePosts = document.querySelector(".choosePosts")
+let postsOptions = document.querySelectorAll("ul.choosePosts li")
+postsOptions[1].addEventListener("click", () => {
+  choosePosts.classList.add("active")
+  getUserFavorietsPosts()
+  document.querySelector(".postsType").innerHTML = "My Favorites"
+})
+postsOptions[0].addEventListener("click", () => {
+  choosePosts.classList.remove("active")
+  getUserPosts()
+  document.querySelector(".manege-post-holder").classList.remove("favoriets")
+  document.querySelector(".postsType").innerHTML = "My Posts"
+  userPosts.classList.add("active")
+})
+function getUserFavorietsPosts() {
+  userPosts.innerHTML = ""
+  document.querySelector(".manege-post-holder").classList.add("favoriets")
+  if (favoritBasket.length !== 0) {
+    userPosts.classList.add("active")
+    favoritBasket.reverse()
+    return (userPosts.innerHTML = favoritBasket.map((x) => {
+      console.log(x);
+        return `
+        <div class="post" id="${x.id}">
+        <i onclick="clickUnSavePost(${x.id}, 'profile')" title="unSave This Post" class="bi bi-x close"></i>
+        <div onclick="openSinglePost(${x.id})" class="grid-img-holder">
+          <img onclick="openSinglePost(${x.id})" class="main-img" src="${x.img}" alt="">
+          <h4 class="gridTitle">${x.body === null ? "" : x.body}</h4>
+        </div>
+      </div>
+        `
+      }).join("")
+    )
+  } else {
+    userPosts.classList.remove("active")
+    var newSpan = document.createElement("span");
+    newSpan.textContent = "There are no videos added to the favorites list!";
+    userPosts.appendChild(newSpan);
+  }
+}
+function openBlackList () {
+  document.querySelector(".black-List").classList.add("active")
+  document.querySelector(".black-List-holder").classList.add("active")
+  body.style.setProperty("overflow", "hidden")
+  if (blockPasket.length === 0) {
+    document.querySelector(".black-List span.p").style.display = "block"
+    document.querySelector(".black-List .top").style.display = "none"
+  } else {
+    blockLength ()
+    let blocksHolder = document.querySelector(".blocksHolder")
+    return (blocksHolder.innerHTML = blockPasket.map((x) => {
+        return `
+        <div class="block">
+          <div>
+            <img src="${x.img == "[object Object]" ? "img/aulter.png" : x.img}" alt="">
+            <h5 class="name">${x.name}</h5>
+          </div>
+          <button class="removeBlock create-post-btn" onclick="removeBlock('${encodeURIComponent(JSON.stringify(x))}', 'profile')">Remove Block</button>
+        </div>
+        `
+      }).join("")
+    )
+  }
+}
+function closeBlackList () {
+  document.querySelector(".black-List").classList.remove("active")
+  document.querySelector(".black-List-holder").classList.remove("active")
+  body.style.setProperty("overflow", "auto")
 }

@@ -42,6 +42,7 @@
   color: white;
 }
 .main-ProfilePage-holder .user-info {
+  position: relative;
   display: flex;
   align-items: self-end;
   gap: 20px;
@@ -49,7 +50,33 @@
   margin: -71px 0 18px;
   padding: 0 30px;
 }
-.main-ProfilePage-holder .user-info img {
+.main-ProfilePage-holder .user-info .set-user-image .holders {
+  position: absolute;
+  bottom: 13px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--input-color);
+  cursor: pointer;
+}
+.main-ProfilePage-holder .user-info .set-user-image i {
+  position: relative;
+  color: var(--text-color);
+}
+.main-ProfilePage-holder .user-info .set-user-image input {
+  scale: 1;
+  position: absolute;
+  left: -120px;
+  z-index: 5;
+  opacity: 0;
+  cursor: pointer;
+}
+.main-ProfilePage-holder .user-info .set-user-image img {
   width: 160px;
   height: 160px;
   border-radius: 50%;
@@ -83,7 +110,7 @@
 .removeFriendProfile {
   display: none;
 }
-.profile-buttons button {
+.profile-buttons > button {
   margin-left: 2px;
   color: var(--text-color);
   background: var(--input-color);
@@ -134,7 +161,7 @@
 .main-ProfilePage-holder nav ul {
   display: flex;
 }
-.main-ProfilePage-holder nav li:last-child,
+.main-ProfilePage-holder nav li.li,
 .main-ProfilePage-holder nav li a {
   font-size: 16px;
   color: var(--text-color2);
@@ -147,7 +174,7 @@
   padding: 5px 10px;
   transition: 0.2s;
 }
-.main-ProfilePage-holder nav li:last-child:hover,
+.main-ProfilePage-holder nav li.li:hover,
 .main-ProfilePage-holder nav li a:hover { 
   background: var(--hover-backGround);
 }
@@ -199,8 +226,8 @@
 .main-ProfilePage-holder .bigBigHolder .left .friends {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  column-gap: 14px;
-  row-gap: 8px;
+  column-gap: 2px;
+  row-gap: 7px;
   max-height: 574px;
   overflow: auto;
   padding-right: 11px;
@@ -212,13 +239,13 @@
   gap: 10px;
   align-items: center;
 }
-.main-ProfilePage-holder .bigBigHolder .left .friends .friend .close {
+.main-ProfilePage-holder .bigBigHolder .close {
   position: absolute;
   color: white;
   font-size: 22px;
-  left: 7px;
+  left: 11px;
   top: 7px;
-  background: red;
+  background: #ff2c2c;
   width: 20px;
   height: 20px;
   display: flex;
@@ -273,16 +300,16 @@
   font-size: 19px;
   font-weight: 600;
 }
-.main-ProfilePage-holder .bigBigHolder .right .profile-buttons {
 
-}
 .main-ProfilePage-holder .bigBigHolder .right .profile-buttons button {
-  background: var(--hover-backGround2);
+  background: transparent;
   font-size: 16px;
   padding: 8px 12px;
+  color: var(--text-color);
 }
-.main-ProfilePage-holder .bigBigHolder .right {
-
+body.dark .main-ProfilePage-holder .bigBigHolder .right .profile-buttons button {
+  background: var(--hover-backGround2);
+  color: var(--text-color);
 }
 .main-ProfilePage-holder .bigBigHolder .right .list-grid {
   display: flex;
@@ -315,6 +342,9 @@
   transform: translatex(-50%);
 }
 
+.main-ProfilePage-holder .userPosts {
+  position: relative;
+}
 .main-ProfilePage-holder .userPosts .post {
   margin-bottom: 25px;
 }
@@ -405,54 +435,132 @@
   display: none;
 }
 .main-ProfilePage-holder .bigBigHolder.nofrind .right {
-  width: 60%;
+  width: 82%;
 }
 
 
-
-
-
-/* 
-.categoriesHolder.active .categories {
-  width: 20%;
-  position: fixed;
-  z-index: 90;
-  top: 30px;
+.profile-buttons button {
+  position: relative;
 }
-.categoriesHolder.delete .categories {
-  max-width: none;
-  min-width: 103%;
+ul.choosePosts {
+  position: absolute;
+  background: var(--body-color);
+  border-radius: 8px;
+  min-width: 130px;
+  left: -135px;
+  top: -3px;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  overflow: hidden;
+  z-index: -5;
+  opacity: 0;
+  transition: 0.2s;
 }
-.shop .cont .categoriesHolder.delete {
+.profile-buttons button:hover ul.choosePosts {
+  z-index: 55;
+  opacity: 1;
+}
+ul.choosePosts::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 50%;
+  transition: 0.3s;
+  background: var(--main-color);
+}
+ul.choosePosts.active::after {
+  top: auto;
+  bottom: 0;
+}
+ul.choosePosts li {
+  padding: 9px 5px;
+  border-radius: 8px;
+  transition: 0.1s;
+}
+ul.choosePosts li:hover {
+  background: var(--input-color);
+}
+.manege-post-holder.favoriets .list-grid,
+.manege-post-holder.favoriets hr {
+  display: none !important;
+}
+
+.main-ProfilePage-holder .userPosts > span {
+  color: var(--text-color);
+  text-align: center;
+  font-size: 18px;
+  max-width: 300px;
+  position: absolute;
+  left: 50%;
+  transform: translatex(-50%);
+}
+
+.main-ProfilePage-holder .userPosts.active .post:hover .close {
+  opacity: 1;
+  z-index: 5;
+}
+.black-List .top {
+  color: var(--text-color);
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 5px;
+}
+.blocksHolder {
   display: flex;
-  align-items: flex-end;
-  bottom: 30px;
+  flex-direction: column;
 }
-.categoriesHolder.delete .categories {
-  position: relative !important;
-  width: 100% !important;
+.black-List-holder {
+  gap: 0;
 }
-*/
-
-
-
-
-
-
-
-
-
+.black-List span.p {
+  color: var(--text-color);
+  text-align: center;
+  font-size: 18px;
+  max-width: 290px;
+  align-self: center;
+  display: none;
+}
+.blocksHolder .block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  text-transform: capitalize;
+  margin-top: 15px;
+}
+.blocksHolder .block div {
+  display: flex;
+  gap: 12px;
+}
+.blocksHolder .block img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.blocksHolder .block .name {
+  display: flex;
+  align-items: center;
+  font-size: 19px;
+}
+.blocksHolder .block button {
+  width: 34%;
+  padding: 9px 0px !important;
+}
 
 
 
 
 @media(max-width:1400px) {
   .main-ProfilePage-holder .bigBigHolder .left .friends {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); 
   }
   .main-ProfilePage-holder .bigBigHolder .left .friends img {
-    width: 135px;
-    height: 135px; 
+    width: 125px;
+    height: 125px; 
     border-radius: 8px;
   }
   .main-ProfilePage-holder .bigBigHolder .left .friends {
@@ -467,6 +575,9 @@
   .main-ProfilePage-holder .bigBigHolder .left .friends {
     max-height: 456px;
   }
+    .main-ProfilePage-holder .bigBigHolder.nofrind .right {
+      width: 85% !important;
+    }
 }
 @media(max-width:992px) {
   .main-ProfilePage-holder {
@@ -502,8 +613,6 @@
   .main-ProfilePage-holder .bigBigHolder .right {
     width: 100%;
   }
-
-
   .main-ProfilePage-holder .bigBigHolder .left .friends {
     display: flex;
     overflow: auto;
@@ -522,7 +631,15 @@
   .main-ProfilePage-holder .bigBigHolder .left .friends {
     padding-right: 0;
   }
-  
+  .main-ProfilePage-holder .bigBigHolder.nofrind .right {
+    width: 100% !important;
+  }
+  .main-ProfilePage-holder .image-cover img {
+    position: relative;
+    width: 118%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 @media(max-width:768px) {
   .main-ProfilePage-holder nav {
@@ -542,10 +659,11 @@
     display: none;
   }
   .main-ProfilePage-holder .image-cover button {
-    font-size: 12px; 
-    bottom: 122px;
-    right: 18px;
-  }
+    font-size: 11px;
+    right: -3px;
+    top: 10px;
+    bottom: inherit;
+}
   .main-ProfilePage-holder .bigBigHolder .left .friends {
     gap: 11px;
   }
@@ -561,6 +679,10 @@
   }
   .main-ProfilePage-holder .user-info .user-name h1 {
     font-size: 28px;
+  }
+  .main-ProfilePage-holder .image-cover img {
+    width: 110%;
+    height: 346px; 
   }
 }
 
@@ -599,7 +721,7 @@
     transform: translateX(3px); 
   }
   .main-ProfilePage-holder .bigBigHolder .left.stop .holder {
-    transform: translateY(305px);
+    transform: translateY(250px);
   }
 }
 @media(min-width:1300px) {

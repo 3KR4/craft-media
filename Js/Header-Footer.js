@@ -214,12 +214,12 @@ function darkMode () {
     localStorage.setItem("mode", "light-mode");
   }
 }
-if (localStorage.getItem("mode") === "dark-mode") {
-  body.classList.add("dark");
-  darkLight.checked = true;
-} else {
+if (localStorage.getItem("mode") === "light-mode") {
   body.classList.remove("dark");
   darkLight.checked = false;
+} else {
+  body.classList.add("dark");
+  darkLight.checked = true;
 }
 //!======= themeButtons =======
 let themeHolder = document.querySelector(".theme-holder")
@@ -251,7 +251,7 @@ themeButtons.forEach((btn) => {
 inputColor.oninput = function () {
   document.querySelector(':root').style.setProperty('--main-color', inputColor.value);
 }
-inputColor.value = localStorage.getItem("theme")
+inputColor.value = localStorage.getItem("theme") || "#2a84ff"
 function updateColor (color) {
   window.localStorage.setItem("theme", color)
   document.querySelector(':root').style.setProperty('--main-color', color);

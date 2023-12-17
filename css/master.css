@@ -25,6 +25,9 @@
 .post.hidePost {
   display: none;
 }
+.post.notLogin .send-comment {
+  display: none;
+}
 .post .removeFriendBtn {
   display: none !important;
 }
@@ -35,6 +38,32 @@
   display: flex !important;
 }
 .post.friend .addFriendBtn {
+  display: none !important;
+}
+
+.post .unblockUser {
+  display: none !important;
+}
+.post.blocked .unblockUser {
+  display: flex !important;
+}
+.post .blockUser {
+  display: flex !important;
+}
+.post.blocked .blockUser {
+  display: none !important;
+}
+
+.post .unsavePost {
+  display: none !important;
+}
+.post.favorit .unsavePost {
+  display: flex !important;
+}
+.post .savePost {
+  display: flex !important;
+}
+.post.favorit .savePost {
   display: none !important;
 }
 .post.hidePost {
@@ -421,8 +450,11 @@ body.dark .post .input textarea {
   z-index: 100;
   border-radius: 20px;
   overflow: hidden;
+  border: 3px solid var(--input-color);
 } 
-
+.single-post-holder.active {
+  border: none;
+}
 .add-post-holder hr {
   margin-top: -13px;
 }
@@ -565,6 +597,7 @@ body.dark .post .input textarea {
 }
 .see-post .seePostClose:hover {
   background: #ff2c2c;
+  color: white;
 }
 .single-post-holder {
   display: flex;
@@ -662,11 +695,35 @@ body.dark .post .input textarea {
   position: relative;
   left: -7px;
 }
+.singlePostPage .post .info .user {
+  left: 0;
+}
 .see-post .info .user > div {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 5px;
+}
+.holderrr {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.seePostClose-mopile {
+  font-size: 22px;
+  color: var(--text-color);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.seePostClose-mopile:hover {
+  background: #ff2c2c;
+  color: white;
 }
 
 
@@ -942,7 +999,6 @@ body.dark .post .input textarea {
   width: 100%;
   max-height: 88vh;
 }
-.singlePostPage
 
 /*!============ REGISTER ============*/
 
@@ -1110,6 +1166,7 @@ form {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  object-fit: cover;
 }
 .set-user-image .holder {
   position: absolute;
@@ -1270,19 +1327,19 @@ p.error-text {
 
 
 
-@media(max-width:1200px) {
-  .main-ProfilePage-holder .bigBigHolder.nofrind .right {
-    width: 70% !important;
-  }
-}
+
 
 
 
 
 
 @media(min-width:993px) {
-  .imageMiddle {
+  .imageMiddle,
+  .seePostClose-mopile {
     display: none;
+  }
+  .singlePostPage .single-post-holder .main-img {
+    transform: translateX(12%);
   }
 }
 @media(max-width:992px) {
@@ -1316,9 +1373,6 @@ p.error-text {
   .single-post-holder .imageTop {
     display: none;
   }
-  .single-post-holder .seePostTopHolder {
-    max-height: 82%;
-  }
   .single-post-holder .post {
     max-width: none;
     width: 100%;
@@ -1341,7 +1395,6 @@ p.error-text {
   }
   .single-post-holder .main-img {
     height: 41vh;
-    object-fit: scale-down;
   }
   .open-model.active {
     overflow: visible;
@@ -1363,6 +1416,9 @@ p.error-text {
   }
   .main-ProfilePage-holder .bigBigHolder.nofrind .right {
     width: 100% !important;
+  }
+  .see-post .seePostClose {
+    display: none;
   }
 }
 
@@ -1397,13 +1453,10 @@ p.error-text {
   }
   .single-post-holder .holder-2 {
     height: 20%;
+    padding: 11px 14px;
   }
   .single-post-holder .main-img {
-    height: 31vh;
-  }
-  .see-post .otherUsersComment {
-    margin-top: 0;
-    max-height: 25%;
+    height: 26vh;
   }
   .delete-post-holder h3 {
     font-size: 14px;
@@ -1426,6 +1479,18 @@ p.error-text {
   }
   .see-post .post .noComment {
     font-size: 12px; 
+  }
+  .post .other h3 small {
+    width: 144px;
+    line-height: 1.3;
+    text-align: center;
+  }
+  .holderrr {
+    gap: 12px;
+  }
+  .seePostClose-mopile {
+    width: 28px;
+    height: 28px;
   }
 }
 @media(max-width:375px) {
