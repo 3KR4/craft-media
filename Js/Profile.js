@@ -31,7 +31,7 @@ function userProfileInfo () {
   axios.get(`http://tarmeezAcademy.com/api/v1/users/${id}`)
     .then((response) => {
       const user = response.data.data
-      
+
       let myId = getCurrentUser()
       if (Number(id) != myId.id) {
         document.querySelector(".profile-buttons.my").style.display = "none"
@@ -42,6 +42,9 @@ function userProfileInfo () {
         document.querySelector(".profile-buttons.my").style.display = "none"
         document.querySelector(".image-cover button").style.display = "none"
         document.querySelector("nav li.li").style.display = "none"
+        document.querySelector(".manege-post-holder .filters").style.display = "none"
+        document.querySelector(".manege-post-holder hr").style.display = "none"
+
 
         document.getElementById("userImage").src = user.profile_image == "[object Object]" ? "img/aulter.png" : user.profile_image
     
@@ -130,7 +133,7 @@ function removeClicked() {
     localStorage.setItem("post-style", "list")
     userPosts.classList.remove("active")
     if (bigBigHolderRight.classList.contains("nofrind")) { 
-      document.querySelector(".bigBigHolder.nofrind .right").style.width = "65%"
+      document.querySelector(".bigBigHolder.nofrind .right").style.width = "56%"
     }
   } else {
     localStorage.setItem("post-style", "grid")
@@ -145,6 +148,8 @@ if (localStorage.getItem("post-style") === "list") {
   listGrid[0].classList.remove("active")
   listGrid[1].classList.add("active")
   userPosts.classList.remove("active")
+
+    document.querySelector(".bigBigHolder .right").style.width = "56%"
 } else {
   listGrid[0].classList.add("active")
   listGrid[1].classList.remove("active")
@@ -152,15 +157,6 @@ if (localStorage.getItem("post-style") === "list") {
 }
 }
 listOrGrid ()
-
-let friendsHolder = document.querySelector(".bigBigHolder .left .friends")
-if (bigBigHolderRight.classList.contains("nofrind")) {
-  if (userPosts.classList.contains("active")) {
-    document.querySelector(".bigBigHolder.nofrind .right").style.width = "82%"
-  } else {
-    document.querySelector(".bigBigHolder.nofrind .right").style.width = "60%"
-  }
-}
 
 function getUserPosts () {
   userPosts.innerHTML = ""
