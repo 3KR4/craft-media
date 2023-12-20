@@ -151,7 +151,6 @@ mainHeader = () => {
 };
 mainHeader();
 
-
 let body = document.querySelector("body");
 let loadIcon = document.querySelector(".preLoader-holder")
 window.addEventListener("load", function() {
@@ -197,7 +196,6 @@ if (localStorage.getItem("mode") === "light-mode") {
   body.classList.add("dark");
   darkLight.checked = true;
 }
-
 let themeHolder = document.querySelector(".theme-holder")
 let themeButtons = document.querySelectorAll(".theme-buttons")
 let inputColor = document.getElementById("colorPicker")
@@ -208,7 +206,6 @@ function showClickDisplay () {
 function closeClickDisplay () {
   themeHolder.classList.remove("active")
 }
-
 if (window.localStorage.getItem("theme")) {
   document.querySelector(':root').style.setProperty('--main-color', window.localStorage.getItem("theme"));
 }
@@ -254,13 +251,9 @@ function openAlert() {
     alertMsdg.classList.add("hide")
   }, 1500) 
 }
-
 function goToProfile() {
   location.href = "profile.html"
 }
-
-
-
 
 let notificationsPasket = JSON.parse(localStorage.getItem("Notifications"))   || []   
 let hideRequestPasket = JSON.parse(localStorage.getItem("hideRequest"))   || []   
@@ -301,8 +294,8 @@ function getNotifications () {
             <h5><span>${post.created_at}</span></h5>
             <p><span>4</span> Mutual Friends</p>
             <div class="btns">
-              <button onclick="removeNot(${post.author.id})" class="main-btn Confirm">Confirm</button>
-              <button onclick="removeNot(${post.author.id})" class="main-btn Delete">Delete</button>
+              <button onclick="confirmNotficationFriend('${encodeURIComponent(JSON.stringify(post))}')" class="main-btn Confirm">Confirm</button>
+              <button onclick="deleteNotficationFriend(${post.author.id})" class="main-btn Delete">Delete</button>
             </div>
           </div>
         </div>
@@ -316,9 +309,25 @@ function getNotifications () {
 }
 getNotifications()
 
-
-
-
+function confirmNotficationFriend (userObject) {
+  let post = JSON.parse(decodeURIComponent(userObject))
+  let search = friendsPasket.find((x) => x.id === post.author.id) 
+  if (search === undefined) {
+    friendsPasket.push({
+      id: post.author.id,
+      name: post.author.name,
+      img: post.author.profile_image
+    })
+  }
+  localStorage.setItem("friends", JSON.stringify(friendsPasket)) 
+  removeNot(post.author.id)
+}
+function deleteNotficationFriend (userID) {
+  let post = JSON.parse(decodeURIComponent(userObject))
+  friendsPasket = friendsPasket.filter((x) => x.id !== userID)
+  localStorage.setItem("friends", JSON.stringify(friendsPasket))
+  removeNot(userID)
+}
 function removeNot (userID) {
   let useRequest = document.getElementById(`friend-request-${userID}`)
   useRequest.classList.add("hideRequest")
