@@ -1,9 +1,10 @@
-let userPasket = JSON.parse(localStorage.getItem("user")) || []   
-let emojePasket = JSON.parse(localStorage.getItem("Reacts")) || []   
+let userPasket    = JSON.parse(localStorage.getItem("user"))    || []   
+let emojePasket   = JSON.parse(localStorage.getItem("Reacts"))  || []   
 let friendsPasket = JSON.parse(localStorage.getItem("friends")) || []
 let favoritBasket = JSON.parse(localStorage.getItem("favorit")) || []
-let hidePasket = JSON.parse(localStorage.getItem("hide")) || []      
-let blockPasket = JSON.parse(localStorage.getItem("block")) || []      
+let hidePasket    = JSON.parse(localStorage.getItem("hide"))    || []      
+let blockPasket   = JSON.parse(localStorage.getItem("block"))   || []      
+
 let currentPage = 1
 let lastPage = 1
 window.addEventListener("scroll", function() {
@@ -15,12 +16,11 @@ window.addEventListener("scroll", function() {
     }
   }
 )
-
 window.onload = function () {
   localStorage.removeItem("currentPage")
 }
 function getPosts (reload = true, page = 1) {
-  axios.get(`http://tarmeezAcademy.com/api/v1/posts?limit=4&page=${page}`)
+  axios.get(`http://tarmeezAcademy.com/api/v1/posts?limit=10&page=${page}`)
 .then((response) => {
   const posts = response.data.data
   lastPage = response.data.meta.last_page
@@ -76,7 +76,6 @@ function getPosts (reload = true, page = 1) {
               <hr>
               <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
               <li class="red-hover blockUser" onclick="clickBlock('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-exclamation-circle"></i> Block User</li>
-              <li class="red-hover unblockUser" onclick="removeBlock('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-exclamation-circle"></i>unBlock</li>
             `
           }
 
@@ -729,7 +728,6 @@ function openSinglePost(postId) {
             <hr>
             <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
             <li class="red-hover blockUser" onclick="clickBlock('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-exclamation-circle"></i> Block User</li>
-            <li class="red-hover unblockUser" onclick="removeBlock('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-exclamation-circle"></i>unBlock</li>
           `
         }
 

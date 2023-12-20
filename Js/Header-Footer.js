@@ -204,6 +204,8 @@ function barsBtn () {
   document.querySelector(".logo .search-ico").classList.remove("hide")
 }
 
+//!======= themeButtons =======
+
 let darkLight = document.querySelector(".check");
 function darkMode () {
   if (darkLight.checked) {
@@ -221,7 +223,7 @@ if (localStorage.getItem("mode") === "light-mode") {
   body.classList.add("dark");
   darkLight.checked = true;
 }
-//!======= themeButtons =======
+
 let themeHolder = document.querySelector(".theme-holder")
 let themeButtons = document.querySelectorAll(".theme-buttons")
 let inputColor = document.getElementById("colorPicker")

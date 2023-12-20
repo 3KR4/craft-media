@@ -44,14 +44,8 @@
 .post .unblockUser {
   display: none !important;
 }
-.post.blocked .unblockUser {
-  display: flex !important;
-}
-.post .blockUser {
-  display: flex !important;
-}
-.post.blocked .blockUser {
-  display: none !important;
+.post.blocked {
+  display: none;
 }
 
 .post .unsavePost {
