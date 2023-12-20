@@ -89,33 +89,7 @@ mainHeader = () => {
             <h3>Friend Requests</h3>
             <a href="">See all</a>
           </div>
-          <div class="friend-request">
-            <div class="card">
-              <img src="img/one piece 1.jpg" alt="">
-              <div class="text">
-                <h6><span>Mostafa Ismail</span> Sent You a Friend Request</h6>
-                <h5><span>5</span> days ago</h5>
-                <p><span>4</span> Mutual Friends</p>
-                <div class="btns">
-                  <button class="main-btn Confirm">Confirm</button>
-                  <button class="main-btn Delete">Delete</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="friend-request">
-            <div class="card">
-              <img src="img/one piece 1.jpg" alt="">
-              <div class="text">
-                <h6><span>Mostafa Ismail</span> Sent You a Friend Request</h6>
-                <h5><span>5</span> days ago</h5>
-                <p><span>4</span> Mutual Friends</p>
-                <div class="btns">
-                  <button class="main-btn Confirm">Confirm</button>
-                  <button class="main-btn Delete">Delete</button>
-                </div>
-              </div>
-            </div>
+          <div class="friend-request-holder">
           </div>
         </div>
 
@@ -284,3 +258,52 @@ function openAlert() {
 function goToProfile() {
   location.href = "profile.html"
 }
+
+
+
+
+let notificationsPasket   = JSON.parse(localStorage.getItem("Notifications"))   || []   
+
+function getNotifications () {
+  axios.get(`http://tarmeezAcademy.com/api/v1/posts?limit=10`)
+.then((response) => {
+  const posts = response.data.data
+  for(let post of posts) {
+    let search = notificationsPasket.find((x) => x.id === post.author.id) 
+    let hideReqest = ""
+    if (search === undefined) {
+      notificationsPasket.push({
+        id: post.author.id
+      }) 
+    } else {
+      hideReqest = "hideRequest"
+    }
+    let user = getCurrentUser()
+    let isMyPost = user != null && post.author.id == user.id
+    if (isMyPost) { 
+      hideReqest = "hideRequest"
+    }
+    
+    let content = `
+      <div class="friend-request ${hideReqest}">
+        <div class="card">
+          <img onclick="clickUserProfile(${post.author.id})" src="${post.author.profile_image == "[object Object]" ? "img/aulter.png" : post.author.profile_image}" alt="">
+          <div class="text">
+            <h6><span>${post.author.username}</span> Sent You a Friend Request</h6>
+            <h5><span>${post.created_at}</span></h5>
+            <p><span>4</span> Mutual Friends</p>
+            <div class="btns">
+              <button class="main-btn Confirm">Confirm</button>
+              <button class="main-btn Delete">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+    document.querySelector(".friend-request-holder").innerHTML += content
+  }
+}).catch((error) => {
+  console.log(error);
+})
+}
+getNotifications()

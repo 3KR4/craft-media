@@ -740,6 +740,13 @@ i.open.hide {
   font-size: 15px;
   color: var(--main-color);
 } 
+.friend-request-holder {
+  max-height: 310px;
+  overflow: auto;
+}
+.header .notifications-menu .friend-request.hideRequest {
+  display: none;
+}
 .header .notifications-menu .friend-request .card { 
   display: flex;
   flex-direction: row;
@@ -749,6 +756,8 @@ i.open.hide {
 } 
 .header .notifications-menu .friend-request .card img {
   width: 55px;
+  height: 55px;
+  object-fit: cover;
 } 
 .header .notifications-menu .friend-request .card h6 {
   color: var(--paragraph);

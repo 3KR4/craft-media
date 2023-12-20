@@ -189,7 +189,7 @@ function getPosts (reload = true, page = 1) {
             Share
           </h3>
         </div>
-  
+
         <div id="send-comment-${post.id}" class="send-comment">
           <img src="img/icon.jpeg" alt="">
           <div class="input">
