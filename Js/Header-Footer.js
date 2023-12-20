@@ -262,10 +262,11 @@ function goToProfile() {
 
 
 
-let notificationsPasket   = JSON.parse(localStorage.getItem("Notifications"))   || []   
+let notificationsPasket = JSON.parse(localStorage.getItem("Notifications"))   || []   
+let hideRequestPasket = JSON.parse(localStorage.getItem("hideRequest"))   || []   
 
 function getNotifications () {
-  axios.get(`http://tarmeezAcademy.com/api/v1/posts?limit=10`)
+  axios.get(`http://tarmeezAcademy.com/api/v1/posts?limit=6`)
 .then((response) => {
   const posts = response.data.data
   for(let post of posts) {
@@ -278,6 +279,13 @@ function getNotifications () {
     } else {
       hideReqest = "hideRequest"
     }
+
+
+    let isHideReq = hideRequestPasket.find((x) => x.id === post.author.id)
+    if (isHideReq) {
+      hideReqest = "hideRequest"
+    }
+
     let user = getCurrentUser()
     let isMyPost = user != null && post.author.id == user.id
     if (isMyPost) { 
@@ -285,7 +293,7 @@ function getNotifications () {
     }
     
     let content = `
-      <div class="friend-request ${hideReqest}">
+      <div id="friend-request-${post.author.id}" class="friend-request ${hideReqest}">
         <div class="card">
           <img onclick="clickUserProfile(${post.author.id})" src="${post.author.profile_image == "[object Object]" ? "img/aulter.png" : post.author.profile_image}" alt="">
           <div class="text">
@@ -293,8 +301,8 @@ function getNotifications () {
             <h5><span>${post.created_at}</span></h5>
             <p><span>4</span> Mutual Friends</p>
             <div class="btns">
-              <button class="main-btn Confirm">Confirm</button>
-              <button class="main-btn Delete">Delete</button>
+              <button onclick="removeNot(${post.author.id})" class="main-btn Confirm">Confirm</button>
+              <button onclick="removeNot(${post.author.id})" class="main-btn Delete">Delete</button>
             </div>
           </div>
         </div>
@@ -307,3 +315,15 @@ function getNotifications () {
 })
 }
 getNotifications()
+
+
+
+
+function removeNot (userID) {
+  let useRequest = document.getElementById(`friend-request-${userID}`)
+  useRequest.classList.add("hideRequest")
+  hideRequestPasket.push({
+        id: userID
+      }) 
+  localStorage.setItem("hideRequest", JSON.stringify(hideRequestPasket))
+}
