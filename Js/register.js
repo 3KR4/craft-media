@@ -126,6 +126,7 @@ form.addEventListener("submit", (e) => {
       mainAlert("success", "check",  "Good", "You've create a new account successfully")
       openAlert()
       userPasket["cover"] = ""
+      userPasket["bio"] = ""
       localStorage.setItem("user", JSON.stringify(userPasket))
       location.href = "index.html"
     }).catch((error) => {

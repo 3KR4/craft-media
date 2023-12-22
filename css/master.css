@@ -848,7 +848,7 @@ body.dark .post .input textarea {
   transform: translateX(-52%);
   width: 125%;
 }
-.delete-post-holder .ptnHolder {
+.ptnHolder {
   display: flex;
   align-self: flex-end;
   gap: 10px;
@@ -856,18 +856,15 @@ body.dark .post .input textarea {
 .delete-post-holder .ptnHolder button {
   padding: 11px 15px !important;
 }
-.delete-post-holder .ptnHolder button.delete {
+.ptnHolder button.delete {
   min-width: 58%;
   color: #de2537;
   border-color: #de2537;
   box-shadow: inset 0 0 0 0 #de2537;
 }
-.delete-post-holder .ptnHolder button.delete:hover {
+.ptnHolder button.delete:hover {
   color: white !important;
   box-shadow: inset 0 -100px 0 0 #de2537;
-}
-.share-div {
-  
 }
 .share-div .share-holder  {
   gap: 0;
@@ -1157,8 +1154,8 @@ form {
   align-self: center;
 }
 .set-user-image img {
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   object-fit: cover;
 }

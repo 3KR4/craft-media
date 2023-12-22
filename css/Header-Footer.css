@@ -736,10 +736,6 @@ i.open.hide {
 .header .notifications-menu .request .top h3 {
   font-size: 16px;
 } 
-.header .notifications-menu .request .top a {
-  font-size: 15px;
-  color: var(--main-color);
-} 
 .friend-request-holder {
   max-height: 310px;
   overflow: auto;

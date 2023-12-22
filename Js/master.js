@@ -826,7 +826,7 @@ function openSinglePost(postId) {
               <img src="img/emoji img/like.svg" alt="">
               <img src="img/emoji img/love.svg" alt="">
               <img src="img/emoji img/haha.svg" alt="">
-              <h6>${post.comments_count + 3}</h6>
+              <h6>${post.comments_count == 0 ? 0 : post.comments_count + 2}</h6>
             </div>
             <h5><span>${post.comments_count}</span> comments</h5>
         </div>

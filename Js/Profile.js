@@ -59,13 +59,14 @@ function userProfileInfo () {
         const storageUser = localStorage.getItem("user")
         userLocal = JSON.parse(storageUser)
         document.getElementById("userImage").src = userLocal.profile_image == "[object Object]" ? "img/aulter.png" : userLocal.profile_image
+        document.querySelector(".bio").innerHTML = userLocal.bio == "" ? "There are no bio yet" : userLocal.bio
         document.querySelector(".profile-buttons.my").style.display = "flex"
         document.querySelector(".profile-buttons.notMY").style.display = "none"
     
         profileHolder.classList.remove("nofrind")   
         document.querySelector(".profile-buttons").style.display = "flex"
         getUserFriends() 
-        document.querySelector(".image-cover img").src = userPasket.cover
+        document.querySelector(".image-cover img").src = userPasket.cover == "" ? "img/cover.png" : userPasket.cover
     
         if (userPasket.cover == "") {
           document.getElementById("typeOfCoverImg").innerHTML = "Add Cover Photo"
@@ -417,4 +418,39 @@ function closeBlackList () {
   document.querySelector(".black-List").classList.remove("active")
   document.querySelector(".black-List-holder").classList.remove("active")
   body.style.setProperty("overflow", "auto")
+}
+
+
+//!============== BIO ================
+let bioInput = document.getElementById("bio")
+function openEditBio () {
+  document.querySelector(".editBio").classList.add("active")
+  document.querySelector(".editBio-holder").classList.add("active")
+  body.style.setProperty("overflow", "hidden")
+
+  const storageUser = localStorage.getItem("user")
+  userLocal = JSON.parse(storageUser)
+  bioInput.value = userLocal.bio
+}
+function closeEditBio () {
+  document.querySelector(".editBio").classList.remove("active")
+  document.querySelector(".editBio-holder").classList.remove("active")
+  body.style.setProperty("overflow", "auto")
+}
+function editBio () {
+  if (bioInput.value != "") {
+    userPasket["bio"] = bioInput.value
+    localStorage.setItem("user", JSON.stringify(userPasket))
+    document.querySelector(".bio").innerHTML = bioInput.value
+    closeEditBio()
+  } else {
+    mainAlert("error", "exclamation",  "warning", "You haven't written anything yet")
+    openAlert()
+  }
+}
+function deleteBio () {
+  userPasket["bio"] = ""
+  localStorage.setItem("user", JSON.stringify(userPasket))
+  document.querySelector(".bio").innerHTML = "There are no bio yet"
+  closeEditBio()
 }

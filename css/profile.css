@@ -23,6 +23,27 @@
   transition: 0.3s;
   overflow: hidden;
 }
+.editBio-holder {
+  gap: 12px;
+}
+#bio {
+  background: var(--input-color);
+  padding: 16px 15px;
+  border-radius: 7px;
+  width: 100%;
+  color: var(--paragraph);
+  outline: none;
+  margin-bottom: 5px;
+}
+#bio:focus {
+  outline: 1px solid var(--main-color);
+}
+.editBio button {
+  width: fit-content;
+  padding: 9px 26px;
+  align-self: flex-end;
+  transform: translateX(-5px);
+}
 .main-ProfilePage-holder .image-cover button:hover {
   background: var(--main-color2);
   color: white;
@@ -42,13 +63,16 @@
   color: white;
 }
 .main-ProfilePage-holder .user-info {
-  position: relative;
   display: flex;
-  align-items: self-end;
   gap: 20px;
   position: relative;
-  margin: -71px 0 18px;
   padding: 0 30px;
+}
+.main-ProfilePage-holder .set-user-image {
+  position: absolute;
+  width: fit-content;
+  align-self: center;
+  top: -68px;
 }
 .main-ProfilePage-holder .user-info .set-user-image .holders {
   position: absolute;
@@ -87,10 +111,17 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  position: relative;
-  top: -6px;
+  height: fit-content;
+  margin: 5px 0 28px 172px;
 }
-
+.main-ProfilePage-holder .user-info .user-name  {
+  max-width: 55%;
+}
+.user-info .user-name .bio {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  margin-top: 7px;
+}
 .main-ProfilePage-holder .user-info .user-name .info {
   display: flex;
   gap: 13px;
@@ -133,9 +164,6 @@
 }
 
 
-
-
-
 .user-info.friend .addFriendProfile {
   display: none;
 }
@@ -143,11 +171,6 @@
 .user-info.friend .messageFriendProfile {
   display: flex;
 }
-
-
-
-
-
 
 .main-ProfilePage-holder nav {
   display: flex;
@@ -580,6 +603,19 @@ ul.choosePosts li:hover {
     }
 }
 @media(max-width:992px) {
+  .main-ProfilePage-holder .set-user-image {
+    position: relative;
+    top: 0;
+  }
+  .main-ProfilePage-holder .user-info .holder {
+    margin: -17px 0 25px;
+  }
+  .main-ProfilePage-holder .user-info .user-name {
+    max-width: 70%;
+  }
+  .user-info .user-name .bio {
+    text-align: center;
+  }
   .main-ProfilePage-holder {
     margin-top: 60px;
   }
@@ -642,6 +678,9 @@ ul.choosePosts li:hover {
   }
 }
 @media(max-width:768px) {
+  .main-ProfilePage-holder .user-info .user-name {
+    max-width: 100%;
+  }
   .main-ProfilePage-holder nav {
     display: flex;
     justify-content: center;

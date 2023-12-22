@@ -55,6 +55,20 @@
 
     </div>
   </div>
+  <div class="editBio model">
+    <div class="editBio-holder open-model container">
+      <div class="text">
+        <h3>Edit Your Bio</h3>
+        <i onclick="closeEditBio()" class="fa-solid fa-xmark model-close"></i>
+      </div>
+      <hr>
+        <input type="text" placeholder="describe who you are" id="bio">
+        <div class="ptnHolder">
+          <button onclick="deleteBio()" class="create-post-btn delete">Delete</button>
+          <button onclick="editBio()" class="create-post-btn">Edit</button>
+        </div>
+    </div>
+  </div>
   <div class="delete-post model">
     <div class="delete-post-holder open-model container">
       <input type="hidden" id="deletePostId">
@@ -104,7 +118,7 @@
   </div>
   <div class="main-ProfilePage-holder container">
     <div class="image-cover">
-      <img src="img/profile background.jpg" alt="">
+      <img src="img/cover.png" alt="">
       <button>
         <h4 id="typeOfCoverImg"></h4>
         <input id="coverimginput" type="file">
@@ -129,10 +143,11 @@
             <h5><span class="userFriendsCount">0</span> Friends</h5>
             <h5><span id="userTweet">0</span> Tweet</h5>
           </div>
+          <p class="bio"></p>
         </div>
         <div class="profile-buttons my">
           <button onclick="openAddEditPost(true)"><i class="fa-solid fa-plus"></i> Add Post</button>
-          <button><i class="fa-solid fa-pen"></i> Edit Profile</button>
+          <button onclick="openEditBio()"><i class="fa-solid fa-pen"></i> Edit Your Bio</button>
         </div>
         <div class="profile-buttons notMY added">
           <button class="addFriendProfile" onclick="addFrindIntopProfile()"><i class="bi bi-person-plus"></i> Add Friend</button>
