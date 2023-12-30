@@ -647,7 +647,7 @@ ul.choosePosts li:hover {
     max-width: none;
   }
   .main-ProfilePage-holder .bigBigHolder .right {
-    width: 100%;
+    width: 100% !important;
   }
   .main-ProfilePage-holder .bigBigHolder .left .friends {
     display: flex;
@@ -675,6 +675,9 @@ ul.choosePosts li:hover {
     width: 118%;
     left: 50%;
     transform: translateX(-50%);
+  }
+  .main-ProfilePage-holder .image-cover button {
+    right: -31px;
   }
 }
 @media(max-width:768px) {
@@ -722,6 +725,10 @@ ul.choosePosts li:hover {
   .main-ProfilePage-holder .image-cover img {
     width: 110%;
     height: 346px; 
+  }
+  .main-ProfilePage-holder nav ul {
+    flex-wrap: wrap;
+    justify-content: center; 
   }
 }
 

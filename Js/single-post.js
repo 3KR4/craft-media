@@ -35,60 +35,71 @@ axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
       isliked = ""
     }
     const isLogin = localStorage.getItem("token")
-      if (isLogin) {
+    if (isLogin) {
 
-        if(isMyPost) {
-          postSettingMenue = `
-            <li onclick="openAddEditPost(false, '${encodeURIComponent(JSON.stringify(post))}')">
-            <i class="fa-regular fa-pen-to-square"></i> Edit Post</li>
-            <li class="savePost" onclick="clickSavePost('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-bookmarks-fill"></i> Save Post</li>
-            <li class="unsavePost" onclick="clickUnSavePost(${post.id})"><i class="bi bi-bookmarks"></i> unSave Post</li>
-            <hr>
-            <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
-            <li onclick="openDeletePost('${encodeURIComponent(JSON.stringify(post))}')" class="red-hover"><i class="bi bi-trash"></i> Delete Post</li>
-          `
-        } else {
-          postSettingMenue = `
+      if(isMyPost) {
+        postSettingMenue = `
+          <li onclick="openAddEditPost(false, '${encodeURIComponent(JSON.stringify(post))}')">
+          <i class="fa-regular fa-pen-to-square"></i> Edit Post</li>
           <li class="savePost" onclick="clickSavePost('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-bookmarks-fill"></i> Save Post</li>
-            <li class="unsavePost" onclick="clickUnSavePost(${post.id})"><i class="bi bi-bookmarks"></i> unSave Post</li>
-            <li class="addFriendBtn" onclick="clickAddFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-plus"></i> Add Frind</li>
-            <li class="removeFriendBtn" onclick="clickRemoveFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-x"></i> Remove Frind</li>
-            <hr>
-            <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
-            <li class="red-hover blockUser" onclick="clickBlock('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-exclamation-circle"></i> Block User</li>
-          `
-        }
-
-        postSetting = `
-        <div class="icon-setting">
-          <i class="bi bi-three-dots open"></i>
-          <i class="bi bi-x close"></i>
-          <ul class="postSettingMenu">
-          ${postSettingMenue}
-          </ul>
-        </div>
+          <li class="unsavePost" onclick="clickUnSavePost(${post.id})"><i class="bi bi-bookmarks"></i> unSave Post</li>
+          <hr>
+          <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
+          <li onclick="openDeletePost('${encodeURIComponent(JSON.stringify(post))}')" class="red-hover"><i class="bi bi-trash"></i> Delete Post</li>
         `
-
-        likeHolder = `
-          <h3 onclick="clickLike(${post.id})" onmouseenter="showReactsHolder(${post.id})" onmouseleave="hideReactsHolder(${post.id})" class="reacts-btn ${isliked}" id="reacts-btn-holder-${post.id}">
-            <div id="reacts-btn-${post.id}">
-              ${postEmoje}
-            </div>
-          </h3>
-        `
-      } else { 
-        postSetting = ""
-
-        likeHolder = `
-          <h3 onclick="clickLikeWithoutLogin(${post.id})" class="reacts-btn" id="reacts-btn-holder-${post.id}">
-            <div id="reacts-btn-${post.id}">
-              <i class="fa-regular fa-thumbs-up"></i>
-              Like
-            </div>
-            <small class="notLoginHidden1">you need to login first</small>
-          </h3>
+      } else {
+        postSettingMenue = `
+        <li class="savePost" onclick="clickSavePost('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-bookmarks-fill"></i> Save Post</li>
+          <li class="unsavePost" onclick="clickUnSavePost(${post.id})"><i class="bi bi-bookmarks"></i> unSave Post</li>
+          <li class="addFriendBtn" onclick="clickAddFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-plus"></i> Add Frind</li>
+          <li class="removeFriendBtn" onclick="clickRemoveFriends('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-person-x"></i> Remove Frind</li>
+          <hr>
+          <li onclick="clickHidePost(${post.id})" class="red-hover"><i class="bi bi-calendar2-x"></i> Hide Post</li>
+          <li class="red-hover blockUser" onclick="clickBlock('${encodeURIComponent(JSON.stringify(post))}')"><i class="bi bi-exclamation-circle"></i> Block User</li>
         `
       }
+
+      postSetting = `
+      <div class="icon-setting">
+        <i class="bi bi-three-dots open"></i>
+        <i class="bi bi-x close"></i>
+        <ul class="postSettingMenu">
+        ${postSettingMenue}
+        </ul>
+      </div>
+      `
+
+      likeHolder = `
+        <h3 onclick="clickLike(${post.id})" onmouseenter="showReactsHolder(${post.id})" onmouseleave="hideReactsHolder(${post.id})" class="reacts-btn ${isliked}" id="reacts-btn-holder-${post.id}">
+          <div id="reacts-btn-${post.id}">
+            ${postEmoje}
+          </div>
+        </h3>
+      `
+
+      commentHolder = `
+        <div id="send-comment-${post.id}" class="send-comment">
+          <img src="${user.profile_image}" alt="">
+          <div class="input">
+          <textarea name="" id="comment-input-${post.id}" placeholder="Type a Comment"></textarea>
+            <i onclick="createCommentClicked(${post.id}, false)" class="bi bi-send"></i>
+          </div>
+        </div>
+      `
+    } else { 
+      postSetting = ""
+
+      likeHolder = `
+        <h3 onclick="clickLikeWithoutLogin(${post.id})" class="reacts-btn" id="reacts-btn-holder-${post.id}">
+          <div id="reacts-btn-${post.id}">
+            <i class="fa-regular fa-thumbs-up"></i>
+            Like
+          </div>
+          <small class="notLoginHidden1">you need to login first</small>
+        </h3>
+      `
+      commentHolder = ``
+    }
     let isHide = hidePasket.find((x) => x.id === post.id)
     if (isHide) {
       hidePost = "hidePost"
@@ -181,13 +192,7 @@ axios.get(`http://tarmeezAcademy.com/api/v1/posts/${postId}`)
           Share
         </h3>
       </div>
-      <div id="send-comment" class="send-comment">
-        <img src="img/icon.jpeg" alt="">
-        <div class="input">
-        <textarea name="" id="comment-input-${post.id}" placeholder="Type a Comment"></textarea>
-        <i onclick="createCommentClicked(${post.id}, true, false, true)" class="bi bi-send" id="xasxax"></i>
-        </div>
-      </div>
+      ${commentHolder}
     </div>
   </div>
   `

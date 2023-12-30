@@ -258,7 +258,7 @@ let notificationsPasket = JSON.parse(localStorage.getItem("Notifications"))   ||
 let hideRequestPasket = JSON.parse(localStorage.getItem("hideRequest"))   || []   
 
 function getNotifications () {
-  axios.get(`http://tarmeezAcademy.com/api/v1/posts?limit=6`)
+  axios.get(`http://tarmeezAcademy.com/api/v1/posts?limit=10`)
 .then((response) => {
   const posts = response.data.data
   for(let post of posts) {
